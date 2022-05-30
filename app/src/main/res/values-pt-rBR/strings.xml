@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Economia ON</string>
+    <string name="title_home">Home</string>
+    <string name="title_finances">Geral</string>
+    <string name="title_latest_finances">Histórico</string>
+    <string name="title_profile">Perfil</string>
+    <string name="cd_fab_add_finance">Adicionar nova finança</string>
+    <string name="finance_name">Nome da finança</string>
+    <string name="finance_type">Tipo da finança</string>
+    <string name="finance_period">Installments number</string>
+    <string name="finance_price">Value</string>
+    <string name="txt_remaining_balance">Remaining balance: \nR$: %1$.2f</string>
+    <string name="txt_check_finances">Check my finances</string>
+    <string name="txt_add_new_finance">Add new finance</string>
+
+    <string-array name="finance_types">
+        <item>Fisiologia</item>
+        <item>Segurança</item>
+        <item>Social</item>
+        <item>Lazer</item>
+        <item>Desenvolvimento Pessoal</item>
+    </string-array>
+    <string name="txt_used_balance">Saldo usado: %1$%</string>
+    <string name="txt_used_balance">S</string>
+</resources>

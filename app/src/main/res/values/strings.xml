@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Economy ON</string>
+    <string name="title_home">Home</string>
+    <string name="title_finances">Overview</string>
+    <string name="title_latest_finances">History</string>
+    <string name="title_profile">Profile</string>
+    <string name="cd_fab_add_finance">Add new finance</string>
+    <string name="finance_name">Finance name</string>
+    <string name="finance_type">Finance type</string>
+    <string name="finance_period">Installments number</string>
+    <string name="finance_price">Price</string>
+    <string name="txt_used_balance">Used balance: %1$%</string>
+    <string name="txt_remaining_balance">Remaining balance: \nR$: %1$.2f</string>
+    <string name="txt_check_finances">Check my finances</string>
+    <string name="txt_add_new_finance">Add new finance</string>
+    <string name="txt_overview_period">Period</string>
+
+    <string-array name="finance_types">
+        <item>Physiology</item>
+        <item>Security</item>
+        <item>Social</item>
+        <item>Leisure</item>
+        <item>Personal Development</item>
+    </string-array>
+
+    <string-array name="overview_types">
+        <item>Present</item>
+        <item>Future</item>
+    </string-array>
+</resources>
