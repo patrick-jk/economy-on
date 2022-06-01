@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.economiaon.R
 import com.economiaon.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
@@ -28,7 +29,7 @@ class ProfileFragment : Fragment() {
 
         val textView: TextView = binding.txtTitle
         profileViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+            textView.text = resources.getString(R.string.title_profile)
         }
         return root
     }

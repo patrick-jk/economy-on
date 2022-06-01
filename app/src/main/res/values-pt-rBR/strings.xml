@@ -22,5 +22,4 @@
         <item>Desenvolvimento Pessoal</item>
     </string-array>
     <string name="txt_used_balance">Saldo usado: %1$%</string>
-    <string name="txt_used_balance">S</string>
 </resources>

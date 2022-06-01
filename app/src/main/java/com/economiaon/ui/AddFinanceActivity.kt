@@ -1,8 +1,8 @@
 package com.economiaon.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import com.economiaon.R
 import com.economiaon.databinding.ActivityAddFinanceBinding
 
@@ -12,6 +12,10 @@ class AddFinanceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = applicationContext.getString(R.string.cd_fab_add_finance)
+
         setupClicks()
     }
 
@@ -29,4 +33,10 @@ class AddFinanceActivity : AppCompatActivity() {
         val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, financeTypes)
         binding.actvFinanceType.setAdapter(arrayAdapter)
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
 }

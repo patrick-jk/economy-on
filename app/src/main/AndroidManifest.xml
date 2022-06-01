@@ -12,6 +12,7 @@
         android:theme="@style/Theme.EconomiaON">
         <activity
             android:name=".ui.AddFinanceActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"

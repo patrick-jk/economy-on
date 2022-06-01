@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.economiaon.R
 
-class FinancesOverviewViewModel(context: Context) : ViewModel() {
+class FinancesOverviewViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = context.getString(R.string.title_finances)
+    private val _text = MutableLiveData<Int>().apply {
+        value = 0
     }
-    val text: LiveData<String> = _text
+    val text: LiveData<Int> = _text
 }

@@ -18,6 +18,14 @@
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/fragment_profile.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/item_finances.xml" value="0.33" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/menu/bottom_nav_menu.xml" value="0.16203703703703703" />
+        <entry key="..\:/Users/Laboratorio-Info/AndroidStudioProjects/economy-on/app/src/main/res/layout/activity_add_finance.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Laboratorio-Info/AndroidStudioProjects/economy-on/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Laboratorio-Info/AndroidStudioProjects/economy-on/app/src/main/res/layout/activity_splash.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Laboratorio-Info/AndroidStudioProjects/economy-on/app/src/main/res/layout/dropdown_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Laboratorio-Info/AndroidStudioProjects/economy-on/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Laboratorio-Info/AndroidStudioProjects/economy-on/app/src/main/res/layout/fragment_latest_finances.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Laboratorio-Info/AndroidStudioProjects/economy-on/app/src/main/res/layout/fragment_overview_finances.xml" value="0.33" />
+        <entry key="..\:/Users/Laboratorio-Info/AndroidStudioProjects/economy-on/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Laboratorio-Info/Downloads/EconomiaON/EconomiaON/app/src/main/res/drawable/ic_add_finance.xml" value="0.3205" />
         <entry key="..\:/Users/Laboratorio-Info/Downloads/EconomiaON/EconomiaON/app/src/main/res/drawable/ic_delete_finance.xml" value="0.2985" />
         <entry key="..\:/Users/Laboratorio-Info/Downloads/EconomiaON/EconomiaON/app/src/main/res/drawable/ic_edit_finance.xml" value="0.2985" />
@@ -33,6 +41,10 @@
         <entry key="..\:/Users/Laboratorio-Info/Downloads/EconomiaON/EconomiaON/app/src/main/res/layout/fragment_profile.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Laboratorio-Info/Downloads/EconomiaON/EconomiaON/app/src/main/res/layout/item_finances.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Laboratorio-Info/Downloads/EconomiaON/EconomiaON/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Laboratorio-Info/Downloads/economy-on/economy-on/app/src/main/res/layout/activity_add_finance.xml" value="0.1" />
+        <entry key="..\:/Users/Laboratorio-Info/Downloads/economy-on/economy-on/app/src/main/res/layout/dropdown_period_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Laboratorio-Info/Downloads/economy-on/economy-on/app/src/main/res/layout/fragment_latest_finances.xml" value="0.33" />
+        <entry key="..\:/Users/Laboratorio-Info/Downloads/economy-on/economy-on/app/src/main/res/layout/fragment_overview_finances.xml" value="0.1" />
       </map>
     </option>
   </component>

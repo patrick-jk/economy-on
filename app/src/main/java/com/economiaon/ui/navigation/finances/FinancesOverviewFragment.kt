@@ -23,8 +23,7 @@ class FinancesOverviewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val financesOverviewViewModel =
-            ViewModelProvider(this)[FinancesOverviewViewModel::class.java]
+        ViewModelProvider(this)[FinancesOverviewViewModel::class.java]
 
         _binding = FragmentOverviewFinancesBinding.inflate(inflater, container, false)
 
@@ -43,7 +42,8 @@ class FinancesOverviewFragment : Fragment() {
 
     private fun setupDropDown() {
         val periodTypes = resources.getStringArray(R.array.overview_types)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, periodTypes)
+        val arrayAdapter =
+            ArrayAdapter(requireContext(), R.layout.dropdown_item, periodTypes)
         binding.actvPeriod.setAdapter(arrayAdapter)
     }
 }

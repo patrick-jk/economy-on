@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.economiaon.R
 import com.economiaon.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -27,7 +28,7 @@ class HomeFragment : Fragment() {
 
         val textView: TextView = binding.tvUsedBalancePercent
         homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+            textView.text = resources.getString(R.string.txt_used_balance)
         }
         return root
     }

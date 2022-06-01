@@ -25,5 +25,6 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/item_finances"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 </androidx.constraintlayout.widget.ConstraintLayout>

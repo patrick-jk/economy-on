@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.economiaon.databinding.FragmentNotificationsBinding
+import com.economiaon.databinding.FragmentLatestFinancesBinding
 
 class FinanceHistoryFragment : Fragment() {
 
-    private var _binding: FragmentNotificationsBinding? = null
+    private var _binding: FragmentLatestFinancesBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,16 +22,12 @@ class FinanceHistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val financeHistoryViewModel =
-            ViewModelProvider(this).get(FinanceHistoryViewModel::class.java)
+            ViewModelProvider(this)[FinanceHistoryViewModel::class.java]
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        _binding = FragmentLatestFinancesBinding.inflate(inflater, container, false)
 
-        val textView: TextView = binding.textNotifications
-        financeHistoryViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+
+        return binding.root
     }
 
     override fun onDestroyView() {
