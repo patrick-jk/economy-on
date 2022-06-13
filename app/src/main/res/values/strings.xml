@@ -14,17 +14,26 @@
     <string name="txt_check_finances">Check my finances</string>
     <string name="txt_add_new_finance">Add new finance</string>
     <string name="txt_overview_period">Period</string>
+    <string name="finance_type_physiology">Physiology</string>
+    <string name="finance_type_security">Security</string>
+    <string name="finance_type_social">Social</string>
+    <string name="finance_type_leisure">Leisure</string>
+    <string name="finance_type_personal_development">Personal Development</string>
+    <string name="finance_time" translatable="false">%d/%d</string>
 
     <string-array name="finance_types">
-        <item>Physiology</item>
-        <item>Security</item>
-        <item>Social</item>
-        <item>Leisure</item>
-        <item>Personal Development</item>
+        <item>@string/finance_type_physiology</item>
+        <item>@string/finance_type_security</item>
+        <item>@string/finance_type_social</item>
+        <item>@string/finance_type_leisure</item>
+        <item>@string/finance_type_personal_development</item>
     </string-array>
 
     <string-array name="overview_types">
         <item>Present</item>
         <item>Future</item>
     </string-array>
+
+    <string name="overview_present">Present</string>
+    <string name="overview_future">Future</string>
 </resources>

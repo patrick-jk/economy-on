@@ -1,9 +1,11 @@
 package com.economiaon.domain
 
+import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
 import java.time.LocalDate
-import kotlin.time.Duration
 
-data class Finance(var name: String, val type: FinanceType, val duration: Duration,
-                   val financePrice: BigDecimal, val initialDate: LocalDate,
-                   val finalDate: LocalDate)
+data class Finance(
+    val id: Long, var name: String, var type: FinanceType,
+    @SerializedName("value") var financePrice: BigDecimal, var initialDate: LocalDate,
+    var finalDate: LocalDate, @SerializedName("user_id") val user: User
+)

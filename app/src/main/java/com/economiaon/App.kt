@@ -1,7 +1,7 @@
 package com.economiaon
 
 import android.app.Application
-import com.economiaon.repo.ApiModule
+import com.economiaon.connection.service.di.ApiModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

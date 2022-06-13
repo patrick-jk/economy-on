@@ -21,5 +21,19 @@
         <item>Lazer</item>
         <item>Desenvolvimento Pessoal</item>
     </string-array>
+
+    <string-array name="overview_types">
+        <item>Presente</item>
+        <item>Futuro</item>
+    </string-array>
+
     <string name="txt_used_balance">Saldo usado: %1$%</string>
+    <string name="txt_overview_period">Período</string>
+    <string name="overview_present">Presente</string>
+    <string name="overview_future">Futuro</string>
+    <string name="finance_type_physiology">Fisiologia</string>
+    <string name="finance_type_security">Segurança</string>
+    <string name="finance_type_social">Social</string>
+    <string name="finance_type_leisure">Lazer</string>
+    <string name="finance_type_personal_development">Desenvolvimento Pessoal</string>
 </resources>

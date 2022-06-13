@@ -4,19 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.economiaon.R
 import com.economiaon.databinding.FragmentOverviewFinancesBinding
+import com.economiaon.ui.FutureChartFragment
+import com.economiaon.ui.PresentChartFragment
 
 class FinancesOverviewFragment : Fragment() {
 
     private var _binding: FragmentOverviewFinancesBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    private val periodTypes by lazy { resources.getStringArray(R.array.overview_types) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +35,7 @@ class FinancesOverviewFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         setupDropDown()
+        setupChart()
     }
 
     override fun onDestroyView() {
@@ -41,9 +44,26 @@ class FinancesOverviewFragment : Fragment() {
     }
 
     private fun setupDropDown() {
-        val periodTypes = resources.getStringArray(R.array.overview_types)
-        val arrayAdapter =
-            ArrayAdapter(requireContext(), R.layout.dropdown_item, periodTypes)
+        val periodTypesArray = resources.getStringArray(R.array.overview_types)
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, periodTypesArray)
         binding.actvPeriod.setAdapter(arrayAdapter)
+    }
+
+    private fun setupChart() {
+        binding.actvPeriod.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, _, position, _ ->
+                val selectedItem = parent?.getItemAtPosition(position).toString()
+                if (selectedItem == periodTypes[0]) {
+                    childFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.chart_container, PresentChartFragment.newInstance())
+                        .commit()
+                } else if (selectedItem == periodTypes[periodTypes.size - 1]) {
+                    childFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.chart_container, FutureChartFragment.newInstance())
+                        .commit()
+                }
+            }
     }
 }
