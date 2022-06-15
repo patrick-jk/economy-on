@@ -36,4 +36,25 @@
 
     <string name="overview_present">Present</string>
     <string name="overview_future">Future</string>
+    <string name="txt_register">Register</string>
+    <string name="txt_hint_name">Name</string>
+    <string name="txt_hint_cpf">CPF</string>
+    <string name="txt_hint_email">Email</string>
+    <string name="txt_hint_password">Password</string>
+    <string name="txt_hint_age">Age</string>
+    <string name="txt_hint_salary">Salary</string>
+    <string name="txt_hint_confirm_email">Confirm Email</string>
+    <string name="txt_hint_confirm_password">Confirm Password</string>
+    <string name="txt_already_registered">Already registered? Sign in!</string>
+    <string name="txt_sign_in">Sign In</string>
+    <string name="txt_invalid_username">Please, insert a valid username!</string>
+    <string name="txt_invalid_cpf">Please, insert a valid cpf!</string>
+    <string name="txt_invalid_email">Please, insert a valid email!</string>
+    <string name="txt_invalid_password">Please, insert a valid password!</string>
+    <string name="txt_emails_different">Emails don\'t match! Please, insert the same email.</string>
+    <string name="txt_password_different">Passwords don\'t match! Please, insert the same password.</string>
+    <string name="txt_invalid_age">Please, insert a valid age!</string>
+    <string name="txt_invalid_salary">Please, insert a valid salary!</string>
+    <string name="txt_invalid_cellphone">Please, insert a valid cellphone number!</string>
+    <string name="txt_hint_cellphone_number">Cellphone Number</string>
 </resources>

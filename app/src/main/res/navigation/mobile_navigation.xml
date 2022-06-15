@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/navigation_finance_history"
-        android:name="com.economiaon.ui.navigation.financehistory.FinanceHistoryFragment"
+        android:name="com.economiaon.ui.navigation.financelist.FinancesListFragment"
         android:label="@string/title_latest_finances"
-        tools:layout="@layout/fragment_latest_finances" />
+        tools:layout="@layout/fragment_finances_list" />
 
     <fragment
         android:id="@+id/navigation_profile"

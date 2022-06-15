@@ -17,7 +17,7 @@ interface ApiService {
     suspend fun saveUser(@Body user: User) : Call<User>
 
     @PUT("users")
-    suspend fun updateUser(@Body user: User) : Response<User>
+    suspend fun updateUser(@Body user: User) : Call<User>
 
     @GET("finances/find")
     suspend fun getFinancesByUserId(@Query("userId") userId: Long) : List<Finance>
@@ -29,5 +29,5 @@ interface ApiService {
     suspend fun updateFinance(@Body finance: Finance) : Response<Finance>
 
     @DELETE("finances/{id}")
-    suspend fun deleteFinance(@Path("id") userId: Long)
+    suspend fun deleteFinance(@Path("id") financeId: Long): Response<Unit>
 }

@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.economiaon.R
 import com.economiaon.databinding.FragmentOverviewFinancesBinding
-import com.economiaon.ui.FutureChartFragment
-import com.economiaon.ui.PresentChartFragment
+import com.economiaon.ui.charts.FutureChartFragment
+import com.economiaon.ui.charts.PresentChartFragment
 
 class FinancesOverviewFragment : Fragment() {
 

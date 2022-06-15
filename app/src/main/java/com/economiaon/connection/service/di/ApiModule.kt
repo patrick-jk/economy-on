@@ -42,7 +42,7 @@ object ApiModule {
 
     private inline fun <reified T> createApiService(client: OkHttpClient, factory: GsonConverterFactory): T {
         return Retrofit.Builder()
-            .baseUrl("localhost:8080/api/")
+            .baseUrl("192.168.100.137:8080/api/")
             .client(client)
             .addConverterFactory(factory)
             .build().create(T::class.java)
