@@ -22,9 +22,6 @@ object ApiModule {
     private fun apiModule(): Module {
         return module {
             single {
-                createApiService<ApiService>(get(), get())
-            }
-            single {
                 GsonConverterFactory.create(GsonBuilder().create())
             }
             single {
@@ -37,12 +34,15 @@ object ApiModule {
                     .addInterceptor(interceptor)
                     .build()
             }
+            single {
+                createApiService<ApiService>(get(), get())
+            }
         }
     }
 
     private inline fun <reified T> createApiService(client: OkHttpClient, factory: GsonConverterFactory): T {
         return Retrofit.Builder()
-            .baseUrl("192.168.100.137:8080/api/")
+            .baseUrl("https://192.168.100.137:8080/api/")
             .client(client)
             .addConverterFactory(factory)
             .build().create(T::class.java)

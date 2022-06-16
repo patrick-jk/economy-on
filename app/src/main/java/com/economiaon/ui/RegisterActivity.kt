@@ -1,6 +1,7 @@
 package com.economiaon.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.economiaon.R
 import com.economiaon.databinding.ActivityRegisterBinding
@@ -21,6 +22,7 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(_binding.root)
+
         setupUi()
     }
 
@@ -48,10 +50,21 @@ class RegisterActivity : AppCompatActivity() {
                     validateFieldAndSetErrorWhenInvalid(tilAge, R.string.txt_invalid_age, context)
                     validateFieldAndSetErrorWhenInvalid(tilSalary, R.string.txt_invalid_salary, context)
                 }
-                viewModel.registerUser(User(0, tilUsername.text, tilCpf.text, tilEmail.text,
-                tilCellphoneNumber.text, tilPassword.text, tilAge.text.toInt(), tilSalary.text.toFloat()))
+                //TODO Fix Validation (Register is reachable even with invalid fields)
+                //TODO Fix age and salary validation
+//                viewModel.registerUser(User(0, tilUsername.text, tilCpf.text, tilEmail.text,
+//                tilCellphoneNumber.text, tilPassword.text, tilAge.text.toInt(), tilSalary.text.toFloat()))
+            }
+        }
+    }
 
-                //TODO Invoke Boolean LiveData to confirm login
+    override fun onStart() {
+        super.onStart()
+        viewModel.status.observe(this) {
+            if (it) {
+                Toast.makeText(this, R.string.txt_user_registered, Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, R.string.txt_user_fail_to_register, Toast.LENGTH_SHORT).show()
             }
         }
     }

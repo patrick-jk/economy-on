@@ -24,19 +24,15 @@ object Validator {
     }
 
     fun validateFieldAndSetErrorWhenInvalid(field: TextInputLayout, stringRes: Int, context: Context) {
-        val defaultStroke = field.boxStrokeColor
         var emailValidation = false
         if (field.editText?.inputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS) {
             emailValidation = validateEmail(field.text)
         }
         if (!validateField(field.text) || emailValidation) {
             field.error = context.getString(stringRes)
-            field.boxStrokeColor = ContextCompat.getColor(context,
-                android.R.color.holo_red_dark)
             field.requestFocus()
         } else {
-            field.boxStrokeColor = ContextCompat.getColor(context,
-                defaultStroke)
+           field.isErrorEnabled = false
         }
     }
 }

@@ -57,4 +57,6 @@
     <string name="txt_invalid_salary">Please, insert a valid salary!</string>
     <string name="txt_invalid_cellphone">Please, insert a valid cellphone number!</string>
     <string name="txt_hint_cellphone_number">Cellphone Number</string>
+    <string name="txt_user_registered">User registered successfully!</string>
+    <string name="txt_user_fail_to_register">Error registering user! Try again later.</string>
 </resources>
