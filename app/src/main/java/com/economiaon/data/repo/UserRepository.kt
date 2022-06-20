@@ -1,7 +1,7 @@
-package com.economiaon.connection.repo
+package com.economiaon.data.connection.repo
 
-import com.economiaon.connection.service.ApiService
-import com.economiaon.domain.User
+import com.economiaon.data.connection.service.ApiService
+import com.economiaon.data.model.User
 
 class UserRepository(private val apiService: ApiService) {
     suspend fun saveUser(user: User) = apiService.saveUser(user)

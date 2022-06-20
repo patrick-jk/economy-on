@@ -1,9 +1,8 @@
-package com.economiaon.connection.repo
+package com.economiaon.data.connection.repo
 
-import com.economiaon.connection.service.ApiService
-import com.economiaon.domain.Finance
+import com.economiaon.data.connection.service.ApiService
+import com.economiaon.data.model.Finance
 import kotlinx.coroutines.flow.flow
-import retrofit2.http.Body
 
 class FinanceRepository(private val apiService: ApiService) {
     suspend fun getFinancesByUserId(userId: Long) = flow<List<Finance>> {

@@ -1,4 +1,4 @@
-package com.economiaon.domain
+package com.economiaon.data.domain
 
 import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal

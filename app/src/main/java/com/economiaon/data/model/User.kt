@@ -1,9 +1,9 @@
-package com.economiaon.domain
+package com.economiaon.data.domain
 
 import com.google.gson.annotations.SerializedName
 
 data class User(
-    val id: Long, var name: String, var cpf: String,
+    val id: Long = 0, var name: String, var cpf: String,
     var email: String,
     @SerializedName("cellphone_number") var cellphoneNumber: String,
     var password: String,
