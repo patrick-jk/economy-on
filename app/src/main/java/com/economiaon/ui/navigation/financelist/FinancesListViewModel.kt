@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.economiaon.domain.Finance
+import com.economiaon.data.model.Finance
 import com.economiaon.usecase.ListFinancesByUserIdUseCase
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect

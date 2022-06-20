@@ -7,7 +7,7 @@
     tools:context=".ui.navigation.profile.ProfileFragment">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_title"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -19,54 +19,55 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_user_name"
+        android:id="@+id/tv_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:paddingHorizontal="16dp"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
         tools:text="Lucas Vinicius" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_user_phone"
+        android:id="@+id/tv_user_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@id/txt_user_name"
-        app:layout_constraintTop_toBottomOf="@id/txt_user_name"
+        app:layout_constraintStart_toStartOf="@id/tv_user_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_user_name"
         tools:text="(11) 99999-9999" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_user_age"
+        android:id="@+id/tv_user_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@id/txt_user_name"
-        app:layout_constraintTop_toBottomOf="@id/txt_user_phone"
+        app:layout_constraintStart_toStartOf="@id/tv_user_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_user_phone"
         tools:text="17 years" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_user_money"
+        android:id="@+id/tv_user_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@id/txt_user_name"
-        app:layout_constraintTop_toBottomOf="@id/txt_user_age"
+        app:layout_constraintStart_toStartOf="@id/tv_user_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_user_age"
         tools:text="$1500.00" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_update_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:backgroundTint="@color/gold"
         android:paddingHorizontal="16dp"
-        app:layout_constraintStart_toStartOf="@id/txt_user_name"
-        app:layout_constraintTop_toBottomOf="@id/txt_user_money"
+        app:layout_constraintStart_toStartOf="@id/tv_user_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_user_money"
         tools:text="Edit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
 package com.economiaon.usecase
 
-import com.economiaon.connection.repo.FinanceRepository
-import com.economiaon.domain.Finance
+import com.economiaon.data.repo.FinanceRepository
+import com.economiaon.data.model.Finance
 import com.economiaon.util.UseCase
 import kotlinx.coroutines.flow.Flow
 

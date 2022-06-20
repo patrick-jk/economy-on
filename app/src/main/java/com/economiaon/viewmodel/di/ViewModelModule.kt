@@ -1,7 +1,11 @@
 package com.economiaon.viewmodel.di
 
 import com.economiaon.ui.navigation.financelist.FinancesListViewModel
-import com.economiaon.viewmodel.RegisterActivityViewModel
+import com.economiaon.ui.navigation.profile.ProfileViewModel
+import com.economiaon.usecase.ListFinancesByUserIdUseCase
+import com.economiaon.viewmodel.AddFinanceViewModel
+import com.economiaon.viewmodel.LoginViewModel
+import com.economiaon.viewmodel.RegisterViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
@@ -14,8 +18,12 @@ object ViewModelModule {
 
     private fun viewModelModule(): Module {
         return module {
-            viewModel { RegisterActivityViewModel(get()) }
+            viewModel { RegisterViewModel(get()) }
             viewModel { FinancesListViewModel(get()) }
+            viewModel { LoginViewModel(get()) }
+            viewModel { AddFinanceViewModel(get(), get()) }
+            viewModel { ProfileViewModel(get()) }
+            factory { ListFinancesByUserIdUseCase(get()) }
         }
     }
 }

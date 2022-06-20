@@ -1,23 +1,26 @@
 package com.economiaon.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.economiaon.connection.repo.UserRepository
-import com.economiaon.domain.User
+import com.economiaon.data.repo.UserRepository
+import com.economiaon.data.model.User
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.net.HttpURLConnection
 
-class RegisterActivityViewModel(private val repository: UserRepository) : ViewModel() {
-    val status = MutableLiveData<Boolean>()
-    val registeredUser by lazy { MutableLiveData<User>() }
+class RegisterViewModel(private val repository: UserRepository) : ViewModel() {
+    private val _status = MutableLiveData<Boolean>()
+    val status: LiveData<Boolean> = _status
+    private val _registerUser = MutableLiveData<User>()
+    val registerUser: LiveData<User> = _registerUser
+    private val _isUserAlreadyRegistered = MutableLiveData<Boolean>()
+    val isUserAlreadyRegistered: LiveData<Boolean> = _isUserAlreadyRegistered
+
 
     fun registerUser(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -25,19 +28,38 @@ class RegisterActivityViewModel(private val repository: UserRepository) : ViewMo
             postUser.enqueue(object : Callback<User> {
                 override fun onResponse(call: Call<User>, response: Response<User>) {
                     if (response.code() == HttpURLConnection.HTTP_CREATED) {
-                        status.postValue(true)
-                        registeredUser.postValue(response.body())
+                        _status.postValue(true)
+                        _registerUser.postValue(response.body())
                     } else {
-                        status.postValue(false)
-                        registeredUser.postValue(null)
+                        _status.postValue(false)
                     }
                 }
 
                 override fun onFailure(call: Call<User>, t: Throwable) {
-                    status.postValue(false)
+                    _status.postValue(false)
                 }
             })
         }
 
+    }
+
+    fun findUserByEmail(userEmail: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val userByEmail = repository.findUserByEmail(userEmail)
+            userByEmail.enqueue(object : Callback<User> {
+                override fun onResponse(call: Call<User>, response: Response<User>) {
+                    if (response.code() == HttpURLConnection.HTTP_OK) {
+                        _isUserAlreadyRegistered.postValue(true)
+                    } else {
+                        _isUserAlreadyRegistered.postValue(false)
+                    }
+                }
+
+                override fun onFailure(call: Call<User>, t: Throwable) {
+                    _isUserAlreadyRegistered.postValue(false)
+                }
+
+            })
+        }
     }
 }

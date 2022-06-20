@@ -13,12 +13,12 @@
 
     <fragment
         android:id="@+id/navigation_overview_finances"
-        android:name="com.economiaon.ui.navigation.finances.FinancesOverviewFragment"
+        android:name="com.economiaon.ui.navigation.financeschart.FinancesOverviewFragment"
         android:label="@string/title_finances"
         tools:layout="@layout/fragment_overview_finances" />
 
     <fragment
-        android:id="@+id/navigation_finance_history"
+        android:id="@+id/navigation_finance_list"
         android:name="com.economiaon.ui.navigation.financelist.FinancesListFragment"
         android:label="@string/title_latest_finances"
         tools:layout="@layout/fragment_finances_list" />

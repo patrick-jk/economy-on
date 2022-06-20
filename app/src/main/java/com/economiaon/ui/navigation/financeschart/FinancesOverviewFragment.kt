@@ -1,4 +1,4 @@
-package com.economiaon.ui.navigation.finances
+package com.economiaon.ui.navigation.financeschart
 
 import android.os.Bundle
 import android.view.LayoutInflater

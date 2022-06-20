@@ -5,10 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.economiaon.data.UserPreferences
 import com.economiaon.databinding.FragmentFinancesListBinding
 import com.economiaon.ui.FinanceListAdapter
+import com.economiaon.ui.charts.FutureChartFragment
 import com.economiaon.util.createDialog
 import com.economiaon.util.createProgressDialog
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FinancesListFragment : Fragment() {
@@ -24,7 +29,16 @@ class FinancesListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //TODO Fix getFinanceList function
+
+        val userPrefs = UserPreferences(requireContext())
+        lifecycleScope.launch {
+            userPrefs.userId.collect {
+                if (it != null) {
+                    viewModel.getFinanceList(it)
+                }
+            }
+        }
+
 
         _binding = FragmentFinancesListBinding.inflate(inflater, container, false)
         binding.rvFinances.adapter = adapter
@@ -51,5 +65,9 @@ class FinancesListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        fun newInstance() = FinancesListFragment()
     }
 }

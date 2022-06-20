@@ -8,6 +8,8 @@
     <string name="finance_name">Finance name</string>
     <string name="finance_type">Finance type</string>
     <string name="finance_period">Installments number</string>
+    <string name="finance_period_start">Initial date</string>
+    <string name="finance_period_end">Final date</string>
     <string name="finance_price">Price</string>
     <string name="txt_used_balance">Used balance: %1$%</string>
     <string name="txt_remaining_balance">Remaining balance: \nR$: %1$.2f</string>
@@ -59,4 +61,19 @@
     <string name="txt_hint_cellphone_number">Cellphone Number</string>
     <string name="txt_user_registered">User registered successfully!</string>
     <string name="txt_user_fail_to_register">Error registering user! Try again later.</string>
+    <string name="txt_user_not_exists">There\'s no user with this info! Check if the email or password is correct.</string>
+    <string name="txt_no_account">Don\'t have account? Consider registering \nfirst.</string>
+    <string name="txt_user_already_registered">User already registered! Please, make login.</string>
+    <string name="txt_edit_finance">Edit Finance</string>
+    <string name="txt_finance_updated">Finance updated successfully!</string>
+    <string name="txt_finance_created">Finance created successfully!</string>
+    <string name="txt_unexpected_error">Unexpected error. Try again later.</string>
+    <string name="txt_finance_name_error">Finance name cannot be empty.</string>
+    <string name="txt_finance_type_error">Please, select a finance type.</string>
+    <string name="txt_finance_start_error">Finance initial date cannot be empty.</string>
+    <string name="txt_finance_end_error">Finance final date cannot be empty.</string>
+    <string name="txt_finance_price_error">Finance price cannot be empty.</string>
+    <string name="txt_delete_finance">Do you wanna delete this finance?</string>
+    <string name="txt_finance_deleted">Finance deleted successfully.</string>
+    <string name="txt_warning_delete_finance">Warning: You cannot redo this.</string>
 </resources>

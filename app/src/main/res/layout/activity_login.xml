@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/layout_padding"
-        app:startIconDrawable="@drawable/ic_person_24dp"
+        app:startIconDrawable="@drawable/ic_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title">
@@ -31,7 +31,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/txt_hint_name"
+            android:hint="@string/txt_hint_email"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -40,9 +40,10 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:startIconDrawable="@drawable/ic_pin_24"
+        app:startIconDrawable="@drawable/ic_lock"
         android:layout_margin="@dimen/layout_padding"
         app:layout_constraintEnd_toEndOf="parent"
+        app:passwordToggleEnabled="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_email">
 
@@ -53,12 +54,27 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:id="@+id/tv_no_account"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/til_password"
+        android:layout_margin="@dimen/layout_padding"
+        android:text="@string/txt_no_account"
+        android:layout_height="wrap_content" />
+
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_password"
+        android:layout_margin="@dimen/layout_padding"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/gold"
+        android:paddingHorizontal="20dp"
         android:text="@string/txt_sign_in"
-        android:layout_margin="@dimen/layout_padding" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_no_account"
+        app:layout_constraintTop_toBottomOf="@id/til_password" />
 </androidx.constraintlayout.widget.ConstraintLayout>

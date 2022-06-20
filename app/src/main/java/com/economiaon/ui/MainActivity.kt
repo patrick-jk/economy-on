@@ -26,17 +26,17 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_overview_finances, R.id.navigation_finance_history,
+                R.id.navigation_home, R.id.navigation_overview_finances, R.id.navigation_finance_list,
                 R.id.navigation_profile
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         binding.navView.background = null
-        setupClick()
+        setupUi()
     }
 
-    private fun setupClick() {
+    private fun setupUi() {
         binding.fabAddFinance.setOnClickListener {
             val intent = Intent(this, AddFinanceActivity::class.java)
             startActivity(intent)

@@ -1,7 +1,7 @@
-package com.economiaon.data.connection.repo.di
+package com.economiaon.data.repo.di
 
-import com.economiaon.data.connection.repo.FinanceRepository
-import com.economiaon.data.connection.repo.UserRepository
+import com.economiaon.data.repo.FinanceRepository
+import com.economiaon.data.repo.UserRepository
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module

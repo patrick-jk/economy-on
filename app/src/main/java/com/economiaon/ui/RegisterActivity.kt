@@ -1,23 +1,27 @@
 package com.economiaon.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.economiaon.R
+import com.economiaon.data.UserPreferences
+import com.economiaon.data.model.User
 import com.economiaon.databinding.ActivityRegisterBinding
-import com.economiaon.domain.User
 import com.economiaon.util.Validator
+import com.economiaon.util.hideSoftKeyboard
 import com.economiaon.util.text
-import com.economiaon.viewmodel.RegisterActivityViewModel
+import com.economiaon.viewmodel.RegisterViewModel
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterActivity : AppCompatActivity() {
 
-    //TODO Store User instance in a Data Store
     //TODO Finish login and Update profile button (using flow)
-
     private val _binding by lazy { ActivityRegisterBinding.inflate(layoutInflater) }
-    private val viewModel by viewModel<RegisterActivityViewModel>()
+    private val viewModel by viewModel<RegisterViewModel>()
+    private val _userPrefs = UserPreferences(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,29 +35,60 @@ class RegisterActivity : AppCompatActivity() {
             btnRegister.setOnClickListener {
                 val context = root.context
                 with(Validator) {
-                    validateFieldAndSetErrorWhenInvalid(tilUsername, R.string.txt_invalid_username, context)
-                    validateFieldAndSetErrorWhenInvalid(tilCpf, R.string.txt_invalid_cpf, context)
-                    validateFieldAndSetErrorWhenInvalid(tilCellphoneNumber, R.string.txt_invalid_cellphone, context)
-                    if (!validateEmailAndConfirmation(tilEmail.text, tilConfirmEmail.text)) {
-                        validateFieldAndSetErrorWhenInvalid(tilConfirmEmail, R.string.txt_emails_different, context)
+                    val validateUsername = validateField(
+                        tilUsername, R.string.txt_invalid_username,
+                        context
+                    )
+                    val validateCpf = validateField(tilCpf, R.string.txt_invalid_cpf, context)
+                    val validateCellphone = validateField(
+                        tilCellphoneNumber,
+                        R.string.txt_invalid_cellphone, context
+                    )
+                    val validateEmail =
+                        validateEmailInfo(tilEmail, R.string.txt_invalid_email, context)
+                    val validatePassword = validateField(
+                        tilPassword, R.string.txt_invalid_password,
+                        context
+                    )
+                    val validateEmailConfirmation = if (tilEmail.text != tilConfirmEmail.text) {
+                        tilConfirmEmail.error = resources.getString(R.string.txt_emails_different)
+                        tilConfirmEmail.requestFocus()
+                        true
                     } else {
-                        validateFieldAndSetErrorWhenInvalid(tilConfirmEmail, R.string.txt_invalid_email, context)
+                        validateEmailInfo(tilConfirmEmail, R.string.txt_invalid_email, context)
                     }
-                    validateFieldAndSetErrorWhenInvalid(tilEmail, R.string.txt_invalid_email, context)
-                    if (!validatePasswordAndConfirmation(tilPassword.text, tilConfirmPassword.text)) {
-                        validateFieldAndSetErrorWhenInvalid(tilConfirmPassword, R.string.txt_password_different, context)
-                    } else {
-                        validateFieldAndSetErrorWhenInvalid(tilConfirmPassword, R.string.txt_invalid_password, context)
-                    }
-                    validateFieldAndSetErrorWhenInvalid(tilPassword, R.string.txt_invalid_password, context)
-                    validateFieldAndSetErrorWhenInvalid(tilConfirmPassword, R.string.txt_invalid_password, context)
-                    validateFieldAndSetErrorWhenInvalid(tilAge, R.string.txt_invalid_age, context)
-                    validateFieldAndSetErrorWhenInvalid(tilSalary, R.string.txt_invalid_salary, context)
+                    val validatePasswordConfirmation =
+                        if (tilPassword.text != tilConfirmPassword.text) {
+                            tilConfirmPassword.error =
+                                resources.getString(R.string.txt_password_different)
+                            tilConfirmEmail.requestFocus()
+                            true
+                        } else {
+                            validateField(
+                                tilConfirmPassword, R.string.txt_invalid_password,
+                                context
+                            )
+                        }
+                    val validateAge = validateField(tilAge, R.string.txt_invalid_age, context)
+                    val validateSalary = validateField(
+                        tilSalary, R.string.txt_invalid_salary,
+                        context
+                    )
+                    val validateFields = validateUsername || validateCpf || validateCellphone
+                            || validateCellphone || validateEmailConfirmation || validatePasswordConfirmation
+                            || validateEmail || validatePassword || validateAge || validateSalary
+                    it.hideSoftKeyboard()
+                    if (validateFields) return@setOnClickListener
                 }
-                //TODO Fix Validation (Register is reachable even with invalid fields)
-                //TODO Fix age and salary validation
-//                viewModel.registerUser(User(0, tilUsername.text, tilCpf.text, tilEmail.text,
-//                tilCellphoneNumber.text, tilPassword.text, tilAge.text.toInt(), tilSalary.text.toFloat()))
+                viewModel.findUserByEmail(tilEmail.text)
+                if (viewModel.isUserAlreadyRegistered.value == true) return@setOnClickListener
+                viewModel.registerUser(User(name = tilUsername.text, cpf = tilCpf.text,
+                        email = tilEmail.text, cellphoneNumber = tilCellphoneNumber.text,
+                        password = tilPassword.text, age = tilAge.text.toInt(),
+                        salary = tilSalary.text.toFloat()))
+            }
+            tvAlreadyRegistered.setOnClickListener {
+                startActivity(Intent(applicationContext, LoginActivity::class.java))
             }
         }
     }
@@ -65,6 +100,23 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.txt_user_registered, Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, R.string.txt_user_fail_to_register, Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.isUserAlreadyRegistered.observe(this) {
+            if (it) {
+                Toast.makeText(this, R.string.txt_user_already_registered, Toast.LENGTH_SHORT)
+                    .show()
+            }
+            else {
+                Toast.makeText(this, R.string.txt_user_registered, Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.registerUser.observe(this) {
+            lifecycleScope.launch {
+                _userPrefs.saveUserId(it.id)
+                val intent = Intent(applicationContext, LoginActivity::class.java)
+                intent.putExtra(LoginActivity.EMAIL, it.email)
+                intent.putExtra(LoginActivity.PASSWORD, it.password)
             }
         }
     }

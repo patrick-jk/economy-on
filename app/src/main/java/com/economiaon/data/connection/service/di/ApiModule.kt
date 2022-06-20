@@ -1,7 +1,7 @@
-package com.economiaon.connection.service.di
+package com.economiaon.data.connection.service.di
 
 import android.util.Log
-import com.economiaon.connection.service.ApiService
+import com.economiaon.data.connection.service.ApiService
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -42,7 +42,7 @@ object ApiModule {
 
     private inline fun <reified T> createApiService(client: OkHttpClient, factory: GsonConverterFactory): T {
         return Retrofit.Builder()
-            .baseUrl("https://192.168.100.137:8080/api/")
+            .baseUrl("http://192.168.100.137:8080/api/")
             .client(client)
             .addConverterFactory(factory)
             .build().create(T::class.java)

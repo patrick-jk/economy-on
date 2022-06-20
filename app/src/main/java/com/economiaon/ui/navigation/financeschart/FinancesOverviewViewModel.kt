@@ -1,10 +1,8 @@
-package com.economiaon.ui.navigation.finances
+package com.economiaon.ui.navigation.financeschart
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.economiaon.R
 
 class FinancesOverviewViewModel : ViewModel() {
 
