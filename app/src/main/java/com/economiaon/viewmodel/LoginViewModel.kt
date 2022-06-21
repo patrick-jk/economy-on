@@ -14,8 +14,8 @@ import retrofit2.Response
 import java.net.HttpURLConnection
 
 class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
-    private val _isUserRegistered = MutableLiveData<Boolean>()
-    val isUserRegistered: LiveData<Boolean> = _isUserRegistered
+    private val _isUserLogged = MutableLiveData<Boolean>()
+    val isUserLogged: LiveData<Boolean> = _isUserLogged
 
     fun checkUserInfo(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -25,15 +25,15 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
                     if (response.code() == HttpURLConnection.HTTP_OK) {
                         val user = response.body()
                         if (user?.password == password ) {
-                            _isUserRegistered.postValue(true)
+                            _isUserLogged.postValue(true)
                         }
                     } else {
-                        _isUserRegistered.postValue(false)
+                        _isUserLogged.postValue(false)
                     }
                 }
 
                 override fun onFailure(call: Call<User>, t: Throwable) {
-                    _isUserRegistered.postValue(false)
+                    _isUserLogged.postValue(false)
                 }
             })
         }

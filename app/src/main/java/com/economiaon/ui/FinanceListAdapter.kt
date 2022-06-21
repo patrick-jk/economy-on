@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.economiaon.R
+import com.economiaon.data.connection.service.ApiService
 import com.economiaon.data.model.Finance
 import com.economiaon.data.model.FinanceType
-import com.economiaon.data.repo.FinanceRepository
 import com.economiaon.databinding.ItemFinancesBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,7 +22,7 @@ import java.time.LocalDate
 import java.time.Period
 import java.util.*
 
-class FinanceListAdapter(private val financeRepository: FinanceRepository) : ListAdapter<Finance, FinanceListAdapter.ViewHolder>(DiffCallback()) {
+class FinanceListAdapter() : ListAdapter<Finance, FinanceListAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -60,10 +60,11 @@ class FinanceListAdapter(private val financeRepository: FinanceRepository) : Lis
                         .setTitle(R.string.txt_delete_finance)
                         .setMessage(R.string.txt_warning_delete_finance)
                         .setPositiveButton(android.R.string.ok) { _, _ ->
-                            val deletedFinance = financeRepository.deleteFinance(item.id)
+                            val deletedFinance = ApiService.getInstance().deleteFinance(item.id)
                             deletedFinance.enqueue(object : Callback<Nothing> {
                                 override fun onResponse(call: Call<Nothing>, response: Response<Nothing>) {
                                     if (response.code() == HttpURLConnection.HTTP_NO_CONTENT) {
+                                        notifyItemRemoved(item.id.toInt())
                                         Toast.makeText(context, R.string.txt_finance_deleted,
                                             Toast.LENGTH_SHORT).show()
                                     } else {

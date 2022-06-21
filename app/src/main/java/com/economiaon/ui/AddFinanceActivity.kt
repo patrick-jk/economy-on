@@ -83,54 +83,49 @@ class AddFinanceActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
                 val pattern = "yyyy-MM-dd"
-                viewModel.saveFinance(
-                    Finance(
-                        name = tilFinanceName.text,
+                viewModel.saveFinance(Finance(name = tilFinanceName.text,
                         type = toFinanceTypeEnum(tilFinanceType.text),
                         financePrice = tilFinancePrice.text.toBigDecimal(),
-                        initialDate = LocalDate.parse(
-                            tilFinanceStart.text,
-                            DateTimeFormatter.ofPattern(pattern)
-                        ),
+                        initialDate = LocalDate.parse(tilFinanceStart.text,
+                            DateTimeFormatter.ofPattern(pattern)),
                         finalDate = LocalDate.parse(
                             tilFinanceEnd.text,
-                            DateTimeFormatter.ofPattern(pattern)
-                        ),
-                        user = viewModel.loggedUser.value as User
-                    )
-                )
+                            DateTimeFormatter.ofPattern(pattern)),
+                        user = viewModel.loggedUser.value as User))
             }
         }
+        if (intent.hasExtra(FINANCE)) {
+            intent?.extras.let {
+                val finance = it?.getParcelable<Finance>(FINANCE)
+                if (finance != null) {
+                    _binding.apply {
+                        tilFinanceName.text = finance.name
+                        val pattern = "yyyy-MM-dd"
+                        tilFinanceStart.text =
+                            finance.initialDate.format(DateTimeFormatter.ofPattern(pattern))
+                        tilFinanceEnd.text =
+                            finance.finalDate.format(DateTimeFormatter.ofPattern(pattern))
+                        tilFinanceType.text = defineFinanceType(finance)
 
-        intent?.extras.let {
-            val finance = it?.getParcelable<Finance>(FINANCE)
-            if (finance != null) {
-                _binding.apply {
-                    tilFinanceName.text = finance.name
-                    val pattern = "yyyy-MM-dd"
-                    tilFinanceStart.text =
-                        finance.initialDate.format(DateTimeFormatter.ofPattern(pattern))
-                    tilFinanceEnd.text =
-                        finance.finalDate.format(DateTimeFormatter.ofPattern(pattern))
-                    tilFinanceType.text = defineFinanceType(finance)
+                        tilFinancePrice.text = finance.financePrice.toString()
+                        btnCreateFin.text = resources.getString(R.string.txt_edit_finance)
 
-                    tilFinancePrice.text = finance.financePrice.toString()
-                    btnCreateFin.text = resources.getString(R.string.txt_edit_finance)
-
-                    btnCreateFin.setOnClickListener {
-                        viewModel.getUserById(userId)
-                        if (viewModel.loggedUser.value == null) return@setOnClickListener
-                        val newFinance = Finance(
-                            id = userId,
-                            name = tilFinanceName.text,
-                            type = toFinanceTypeEnum(tilFinanceType.text),
-                            financePrice = tilFinancePrice.text.toBigDecimal(),
-                            initialDate = LocalDate.parse(tilFinanceStart.text,
-                                DateTimeFormatter.ofPattern(pattern)),
-                            finalDate = LocalDate.parse(tilFinanceEnd.text,
-                                DateTimeFormatter.ofPattern(pattern)),
-                            user = viewModel.loggedUser.value as User)
-                        viewModel.updateFinance(newFinance)
+                        btnCreateFin.setOnClickListener {
+                            viewModel.getUserById(userId)
+                            if (viewModel.loggedUser.value == null) return@setOnClickListener
+                            val newFinance = Finance(
+                                id = userId,
+                                name = tilFinanceName.text,
+                                type = toFinanceTypeEnum(tilFinanceType.text),
+                                financePrice = tilFinancePrice.text.toBigDecimal(),
+                                initialDate = LocalDate.parse(tilFinanceStart.text,
+                                    DateTimeFormatter.ofPattern(pattern)),
+                                finalDate = LocalDate.parse(tilFinanceEnd.text,
+                                    DateTimeFormatter.ofPattern(pattern)),
+                                user = viewModel.loggedUser.value as User)
+                            viewModel.updateFinance(newFinance)
+                            startActivity(Intent(applicationContext, MainActivity::class.java))
+                        }
                     }
                 }
             }
@@ -173,25 +168,25 @@ class AddFinanceActivity : AppCompatActivity() {
         super.onStart()
         viewModel.isFinanceUpdated.observe(this) {
             if (it) {
-                Toast.makeText(this, R.string.txt_finance_updated, Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, MainActivity::class.java))
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.navigation_finance_list, FinancesListFragment.newInstance())
-                    .commit()
+                financeNotification(R.string.txt_finance_updated)
             } else {
                 Toast.makeText(this, R.string.txt_unexpected_error, Toast.LENGTH_SHORT).show()
             }
         }
         viewModel.isFinanceCreated.observe(this) {
             if (it) {
-                Toast.makeText(this, R.string.txt_finance_created, Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, MainActivity::class.java))
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.navigation_finance_list, FinancesListFragment.newInstance())
-                    .commit()
+                financeNotification(R.string.txt_finance_created)
             } else {
                 Toast.makeText(this, R.string.txt_unexpected_error, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun financeNotification(stringRes: Int) {
+        Toast.makeText(this, stringRes, Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this, MainActivity::class.java))
+        supportFragmentManager.beginTransaction()
+            .add(R.id.navigation_finance_list, FinancesListFragment.newInstance())
+            .commit()
     }
 }

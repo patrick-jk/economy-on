@@ -82,7 +82,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
                 viewModel.findUserByEmail(tilEmail.text)
                 if (viewModel.isUserAlreadyRegistered.value == true) return@setOnClickListener
-                viewModel.registerUser(User(name = tilUsername.text, cpf = tilCpf.text,
+                viewModel.registerUser(User(id = 0, name = tilUsername.text, cpf = tilCpf.text,
                         email = tilEmail.text, cellphoneNumber = tilCellphoneNumber.text,
                         password = tilPassword.text, age = tilAge.text.toInt(),
                         salary = tilSalary.text.toFloat()))

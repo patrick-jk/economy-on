@@ -1,5 +1,6 @@
 package com.economiaon.data.repo.di
 
+import com.economiaon.data.UserPreferences
 import com.economiaon.data.repo.FinanceRepository
 import com.economiaon.data.repo.UserRepository
 import org.koin.core.context.loadKoinModules
@@ -18,6 +19,9 @@ object RepositoryModule {
             }
             single {
                 FinanceRepository(get())
+            }
+            single {
+                UserPreferences(get())
             }
         }
     }

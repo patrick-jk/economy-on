@@ -3,6 +3,8 @@ package com.economiaon.data.connection.service
 import com.economiaon.data.model.Finance
 import com.economiaon.data.model.User
 import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 interface ApiService {
@@ -30,4 +32,18 @@ interface ApiService {
     @DELETE("finances/{id}")
     fun deleteFinance(@Path("id") financeId: Long): Call<Nothing>
 
+    companion object {
+        private val apiService by lazy {
+            val retrofit = Retrofit.Builder()
+                .baseUrl("http://192.168.100.137:8080/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            retrofit.create(ApiService::class.java)
+        }
+
+        fun getInstance(): ApiService {
+            return apiService
+        }
+    }
 }

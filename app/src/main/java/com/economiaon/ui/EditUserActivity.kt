@@ -23,20 +23,41 @@ class EditUserActivity : AppCompatActivity() {
     }
 
     private fun setupUi() {
-        intent.extras?.let {
-            val user = it.getParcelable<User>(USER_INFO)
-            binding.apply {
-                if (user != null) {
+        if (intent.hasExtra(USER_INFO)) {
+            intent.extras?.let {
+                val user = it.getParcelable<User>(USER_INFO) as User
+                binding.apply {
                     tilUsername.text = user.name
                     tilPhone.text = user.cellphoneNumber
                     tilAge.text = user.age.toString()
                     tilSalary.text = user.salary.toString()
-                }
-                btnSaveChanges.setOnClickListener {
-                    if (user != null) {
-                        viewModel.updateUser(User(user.id, tilUsername.text, user.cpf,
-                        user.email, tilPhone.text, user.password, tilAge.text.toInt(),
-                        tilSalary.text.toFloat()))
+
+                    btnSaveChanges.setOnClickListener {
+                        if (tilUsername.text.isBlank()) {
+                            tilUsername.error = resources.getString(R.string.txt_invalid_username)
+                            tilUsername.requestFocus()
+                            return@setOnClickListener
+                        }
+                        if (tilPhone.text.isBlank()) {
+                            tilPhone.error = resources.getString(R.string.txt_invalid_cellphone)
+                            tilPhone.requestFocus()
+                            return@setOnClickListener
+                        }
+                        if (tilAge.text.isBlank()) {
+                            tilAge.error = resources.getString(R.string.txt_invalid_age)
+                            tilAge.requestFocus()
+                            return@setOnClickListener
+                        }
+                        if (tilSalary.text.isBlank()) {
+                            tilSalary.error = resources.getString(R.string.txt_invalid_salary)
+                            tilSalary.requestFocus()
+                            return@setOnClickListener
+                        }
+
+                        viewModel.updateUser(
+                            User(user.id, tilUsername.text, user.cpf,
+                                user.email, tilPhone.text, user.password, tilAge.text.toInt(),
+                                tilSalary.text.toFloat()))
                     }
                 }
             }
@@ -54,8 +75,7 @@ class EditUserActivity : AppCompatActivity() {
                 startActivity(Intent(this, MainActivity::class.java))
                 supportFragmentManager.beginTransaction()
                     .add(R.id.navigation_profile, ProfileFragment())
-            }
-            else {
+            } else {
                 Toast.makeText(this, R.string.txt_unexpected_error, Toast.LENGTH_SHORT).show()
             }
         }

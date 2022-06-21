@@ -75,6 +75,5 @@
         android:paddingHorizontal="20dp"
         android:text="@string/txt_sign_in"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_no_account"
         app:layout_constraintTop_toBottomOf="@id/til_password" />
 </androidx.constraintlayout.widget.ConstraintLayout>
