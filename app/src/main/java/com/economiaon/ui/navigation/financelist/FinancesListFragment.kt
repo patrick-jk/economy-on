@@ -9,7 +9,6 @@ import androidx.lifecycle.lifecycleScope
 import com.economiaon.data.UserPreferences
 import com.economiaon.databinding.FragmentFinancesListBinding
 import com.economiaon.ui.FinanceListAdapter
-import com.economiaon.ui.charts.FutureChartFragment
 import com.economiaon.util.createDialog
 import com.economiaon.util.createProgressDialog
 import kotlinx.coroutines.flow.collect

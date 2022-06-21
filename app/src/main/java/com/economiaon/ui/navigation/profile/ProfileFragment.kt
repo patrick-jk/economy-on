@@ -1,12 +1,18 @@
 package com.economiaon.ui.navigation.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.economiaon.R
 import com.economiaon.data.UserPreferences
 import com.economiaon.databinding.FragmentProfileBinding
+import com.economiaon.ui.EditUserActivity
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : Fragment() {
@@ -30,18 +36,31 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupUi() {
-        _binding.apply {
-            // finish update
+        _binding?.apply {
+            lifecycleScope.launch {
+                _userPrefs.userId.collect {
+                    if (it != null) {
+                        viewModel.getUserById(it)
+                    }
+                }
+            }
+            viewModel.userInfo.observe(requireActivity()) {
+                if (it != null) {
+                    tvUserName.text = it.name
+                    tvUserAge.text = it.age.toString()
+                    tvUserMoney.text = requireContext().getString(R.string.txt_user_salary, it.salary)
+                    tvUserPhone.text = it.cellphoneNumber
+                }
+            }
+            btnUpdateUser.setOnClickListener {
+                val intent = Intent(requireContext(), EditUserActivity::class.java)
+                intent.putExtra(EditUserActivity.USER_INFO, viewModel.userInfo.value)
+            }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onStart() {
-        super.onStart()
-        //add viewModel
     }
 }

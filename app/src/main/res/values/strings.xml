@@ -73,7 +73,10 @@
     <string name="txt_finance_start_error">Finance initial date cannot be empty.</string>
     <string name="txt_finance_end_error">Finance final date cannot be empty.</string>
     <string name="txt_finance_price_error">Finance price cannot be empty.</string>
-    <string name="txt_delete_finance">Do you wanna delete this finance?</string>
+    <string name="txt_delete_finance">Do you want to delete this finance?</string>
     <string name="txt_finance_deleted">Finance deleted successfully.</string>
     <string name="txt_warning_delete_finance">Warning: You cannot redo this.</string>
+    <string name="txt_user_salary">$%1$.2f</string>
+    <string name="txt_edit_user_title">Edit Info</string>
+    <string name="txt_save">Save</string>
 </resources>
