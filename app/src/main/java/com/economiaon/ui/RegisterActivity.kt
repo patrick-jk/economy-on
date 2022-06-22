@@ -21,7 +21,7 @@ class RegisterActivity : AppCompatActivity() {
     //TODO Finish login and Update profile button (using flow)
     private val _binding by lazy { ActivityRegisterBinding.inflate(layoutInflater) }
     private val viewModel by viewModel<RegisterViewModel>()
-    private val _userPrefs = UserPreferences(this)
+    private val _userPrefs by lazy { UserPreferences(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +81,9 @@ class RegisterActivity : AppCompatActivity() {
                     if (validateFields) return@setOnClickListener
                 }
                 viewModel.findUserByEmail(tilEmail.text)
-                if (viewModel.isUserAlreadyRegistered.value == true) return@setOnClickListener
+                if (viewModel.isUserAlreadyRegistered.value == true) {
+                    return@setOnClickListener
+                }
                 viewModel.registerUser(User(id = 0, name = tilUsername.text, cpf = tilCpf.text,
                         email = tilEmail.text, cellphoneNumber = tilCellphoneNumber.text,
                         password = tilPassword.text, age = tilAge.text.toInt(),
@@ -98,6 +100,9 @@ class RegisterActivity : AppCompatActivity() {
         viewModel.status.observe(this) {
             if (it) {
                 Toast.makeText(this, R.string.txt_user_registered, Toast.LENGTH_SHORT).show()
+                val intent = Intent(applicationContext, LoginActivity::class.java)
+                intent.putExtra(LoginActivity.EMAIL, _binding.tilEmail.text)
+                intent.putExtra(LoginActivity.PASSWORD, _binding.tilPassword.text)
             } else {
                 Toast.makeText(this, R.string.txt_user_fail_to_register, Toast.LENGTH_SHORT).show()
             }

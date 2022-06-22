@@ -51,7 +51,9 @@
         <entry key="..\:/Users/Laboratorio-info/AndroidStudioProjects/economy-on/app/src/main/res/layout/activity_edit_finance.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Laboratorio-info/AndroidStudioProjects/economy-on/app/src/main/res/layout/activity_edit_user.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Laboratorio-info/AndroidStudioProjects/economy-on/app/src/main/res/layout/activity_register.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Laboratorio-info/AndroidStudioProjects/economy-on/app/src/main/res/layout/fragment_finances_list.xml" value="0.29259259259259257" />
         <entry key="..\:/Users/Laboratorio-info/AndroidStudioProjects/economy-on/app/src/main/res/layout/fragment_profile.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Laboratorio-info/AndroidStudioProjects/economy-on/app/src/main/res/layout/item_finances.xml" value="0.29907407407407405" />
       </map>
     </option>
   </component>

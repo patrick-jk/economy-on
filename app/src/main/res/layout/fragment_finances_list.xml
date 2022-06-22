@@ -13,10 +13,10 @@
         android:layout_margin="16dp"
         android:textAlignment="center"
         android:textSize="48sp"
+        android:text="@string/title_finances"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Finances" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_finances"

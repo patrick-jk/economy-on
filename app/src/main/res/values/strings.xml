@@ -79,4 +79,9 @@
     <string name="txt_user_salary">$%1$.2f</string>
     <string name="txt_edit_user_title">Edit Info</string>
     <string name="txt_save">Save</string>
+    <string name="txt_edit_info">Edit</string>
+    <string name="txt_user_info_name">Name: %s</string>
+    <string name="txt_user_info_phone">Phone: %s</string>
+    <string name="txt_user_info_age">Age: %d</string>
+    <string name="txt_user_info_salary">Salary: %1$.2f</string>
 </resources>

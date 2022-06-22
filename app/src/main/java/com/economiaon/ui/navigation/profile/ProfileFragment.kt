@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.economiaon.R
 import com.economiaon.data.UserPreferences
+import com.economiaon.data.model.User
 import com.economiaon.databinding.FragmentProfileBinding
 import com.economiaon.ui.EditUserActivity
 import kotlinx.coroutines.flow.collect
@@ -18,7 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ProfileFragment : Fragment() {
     private val viewModel by viewModel<ProfileViewModel>()
     private var _binding: FragmentProfileBinding? = null
-    private val _userPrefs = UserPreferences(requireContext())
+    private val _userPrefs by lazy { UserPreferences(requireContext()) }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -46,15 +47,15 @@ class ProfileFragment : Fragment() {
             }
             viewModel.userInfo.observe(requireActivity()) {
                 if (it != null) {
-                    tvUserName.text = it.name
-                    tvUserAge.text = it.age.toString()
-                    tvUserMoney.text = requireContext().getString(R.string.txt_user_salary, it.salary)
-                    tvUserPhone.text = it.cellphoneNumber
+                    tvUserName.text = requireContext().getString(R.string.txt_user_info_name, it.name)
+                    tvUserAge.text = requireContext().getString(R.string.txt_user_info_age, it.age)
+                    tvUserMoney.text = requireContext().getString(R.string.txt_user_info_salary, it.salary)
+                    tvUserPhone.text = requireContext().getString(R.string.txt_user_info_phone, it.cellphoneNumber)
                 }
             }
             btnUpdateUser.setOnClickListener {
                 val intent = Intent(requireContext(), EditUserActivity::class.java)
-                intent.putExtra(EditUserActivity.USER_INFO, viewModel.userInfo.value)
+                intent.putExtra(EditUserActivity.USER_INFO, viewModel.userInfo.value as User)
             }
         }
     }

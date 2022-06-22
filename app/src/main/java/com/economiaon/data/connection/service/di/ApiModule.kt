@@ -26,7 +26,7 @@ object ApiModule {
             }
             single {
                 val interceptor = HttpLoggingInterceptor {
-                    Log.e(OK_HTTP, it)
+                    Log.i(OK_HTTP, it)
                 }
                 interceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -42,7 +42,7 @@ object ApiModule {
 
     private inline fun <reified T> createApiService(client: OkHttpClient, factory: GsonConverterFactory): T {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.100.137:8080/api/")
+            .baseUrl("http://10.0.2.2:8080/api/")
             .client(client)
             .addConverterFactory(factory)
             .build().create(T::class.java)

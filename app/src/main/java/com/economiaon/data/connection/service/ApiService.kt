@@ -35,7 +35,7 @@ interface ApiService {
     companion object {
         private val apiService by lazy {
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.100.137:8080/api/")
+                .baseUrl("http://10.0.2.2:8080/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 

@@ -22,7 +22,7 @@ import java.time.LocalDate
 import java.time.Period
 import java.util.*
 
-class FinanceListAdapter() : ListAdapter<Finance, FinanceListAdapter.ViewHolder>(DiffCallback()) {
+class FinanceListAdapter : ListAdapter<Finance, FinanceListAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -46,10 +46,13 @@ class FinanceListAdapter() : ListAdapter<Finance, FinanceListAdapter.ViewHolder>
                     FinanceType.SOCIAL -> context.getString(R.string.finance_type_social)
                     FinanceType.PERSONAL_DEVELOPMENT -> context.getString(R.string.finance_type_personal_development)
                 }
-                val installmentsDuration = Period.between(item.initialDate, LocalDate.now()).months
-                val finalMonth = Period.between(item.initialDate, item.finalDate).months
-                tvFinPeriod.text = context.getString(R.string.finance_time, installmentsDuration, finalMonth)
-                tvFinPrice.text = String.format(Locale.getDefault(), "$%s", item.financePrice)
+                val installmentStart: LocalDate = LocalDate.parse(item.initialDate)
+                val installmentEnd: LocalDate = LocalDate.parse(item.finalDate)
+                val installmentsDuration = Period.between(installmentStart, LocalDate.now()).months
+                val finalMonth = Period.between(installmentStart, installmentEnd).months
+                tvFinPeriod.text =
+                    context.getString(R.string.finance_time, installmentsDuration + 1, finalMonth)
+                tvFinPrice.text = String.format(Locale.getDefault(), "$%.2f", item.financePrice)
                 btnEditFin.setOnClickListener {
                     val intent = Intent(context, AddFinanceActivity::class.java)
                     intent.putExtra(AddFinanceActivity.FINANCE, item)
@@ -62,24 +65,33 @@ class FinanceListAdapter() : ListAdapter<Finance, FinanceListAdapter.ViewHolder>
                         .setPositiveButton(android.R.string.ok) { _, _ ->
                             val deletedFinance = ApiService.getInstance().deleteFinance(item.id)
                             deletedFinance.enqueue(object : Callback<Nothing> {
-                                override fun onResponse(call: Call<Nothing>, response: Response<Nothing>) {
+                                override fun onResponse(
+                                    call: Call<Nothing>,
+                                    response: Response<Nothing>
+                                ) {
                                     if (response.code() == HttpURLConnection.HTTP_NO_CONTENT) {
                                         notifyItemRemoved(item.id.toInt())
-                                        Toast.makeText(context, R.string.txt_finance_deleted,
-                                            Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            context, R.string.txt_finance_deleted,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     } else {
-                                        Toast.makeText(context, R.string.txt_unexpected_error,
-                                            Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            context, R.string.txt_unexpected_error,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                 }
 
                                 override fun onFailure(call: Call<Nothing>, t: Throwable) {
-                                    Toast.makeText(context, R.string.txt_unexpected_error,
-                                        Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context, R.string.txt_unexpected_error,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
 
                             })
-                        }.setNegativeButton(android.R.string.cancel) {dialog, _ ->
+                        }.setNegativeButton(android.R.string.cancel) { dialog, _ ->
                             dialog.dismiss()
                         }
                     dialog.show()

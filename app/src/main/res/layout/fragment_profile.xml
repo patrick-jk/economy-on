@@ -64,10 +64,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:text="@string/txt_edit_info"
         android:backgroundTint="@color/gold"
         android:paddingHorizontal="16dp"
         app:layout_constraintStart_toStartOf="@id/tv_user_name"
-        app:layout_constraintTop_toBottomOf="@id/tv_user_money"
-        tools:text="Edit" />
+        app:layout_constraintTop_toBottomOf="@id/tv_user_money" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
