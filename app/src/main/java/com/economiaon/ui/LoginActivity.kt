@@ -85,5 +85,12 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.txt_user_not_exists, Toast.LENGTH_SHORT).show()
             }
         }
+        viewModel.userInfo.observe(this) {
+            if (it != null) {
+                lifecycleScope.launch {
+                    _userPrefs.saveUserId(it.id)
+                }
+            }
+        }
     }
 }

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.economiaon.R
 import com.economiaon.data.UserPreferences
-import com.economiaon.data.model.User
 import com.economiaon.databinding.FragmentProfileBinding
 import com.economiaon.ui.EditUserActivity
 import kotlinx.coroutines.flow.collect
@@ -45,17 +44,18 @@ class ProfileFragment : Fragment() {
                     }
                 }
             }
-            viewModel.userInfo.observe(requireActivity()) {
-                if (it != null) {
-                    tvUserName.text = requireContext().getString(R.string.txt_user_info_name, it.name)
-                    tvUserAge.text = requireContext().getString(R.string.txt_user_info_age, it.age)
-                    tvUserMoney.text = requireContext().getString(R.string.txt_user_info_salary, it.salary)
-                    tvUserPhone.text = requireContext().getString(R.string.txt_user_info_phone, it.cellphoneNumber)
+            viewModel.userInfo.observe(requireActivity()) { user ->
+                if (user != null) {
+                    tvUserName.text = requireContext().getString(R.string.txt_user_info_name, user.name)
+                    tvUserAge.text = requireContext().getString(R.string.txt_user_info_age, user.age)
+                    tvUserMoney.text = requireContext().getString(R.string.txt_user_info_salary, user.salary)
+                    tvUserPhone.text = requireContext().getString(R.string.txt_user_info_phone, user.cellphoneNumber)
                 }
-            }
-            btnUpdateUser.setOnClickListener {
-                val intent = Intent(requireContext(), EditUserActivity::class.java)
-                intent.putExtra(EditUserActivity.USER_INFO, viewModel.userInfo.value as User)
+                btnUpdateUser.setOnClickListener {
+                    val intent = Intent(requireActivity(), EditUserActivity::class.java)
+                    intent.putExtra(EditUserActivity.USER_INFO, user)
+                    startActivity(intent)
+                }
             }
         }
     }

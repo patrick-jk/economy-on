@@ -30,7 +30,7 @@ interface ApiService {
     fun updateFinance(@Body finance: Finance) : Call<Nothing>
 
     @DELETE("finances/{id}")
-    fun deleteFinance(@Path("id") financeId: Long): Call<Nothing>
+    fun deleteFinance(@Path("id") financeId: Long): Call<Void>
 
     companion object {
         private val apiService by lazy {

@@ -112,17 +112,14 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.txt_user_already_registered, Toast.LENGTH_SHORT)
                     .show()
             }
-            else {
-                Toast.makeText(this, R.string.txt_user_registered, Toast.LENGTH_SHORT).show()
-            }
         }
         viewModel.registerUser.observe(this) {
             lifecycleScope.launch {
                 _userPrefs.saveUserId(it.id)
-                val intent = Intent(applicationContext, LoginActivity::class.java)
-                intent.putExtra(LoginActivity.EMAIL, it.email)
-                intent.putExtra(LoginActivity.PASSWORD, it.password)
             }
+            val intent = Intent(applicationContext, LoginActivity::class.java)
+            intent.putExtra(LoginActivity.EMAIL, it.email)
+            intent.putExtra(LoginActivity.PASSWORD, it.password)
         }
     }
 }

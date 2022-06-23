@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.economiaon.R
 import com.economiaon.data.model.User
 import com.economiaon.databinding.ActivityEditUserBinding
 import com.economiaon.ui.navigation.profile.ProfileFragment
 import com.economiaon.util.text
 import com.economiaon.viewmodel.EditUserViewModel
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditUserActivity : AppCompatActivity() {
@@ -53,11 +55,12 @@ class EditUserActivity : AppCompatActivity() {
                             tilSalary.requestFocus()
                             return@setOnClickListener
                         }
-
-                        viewModel.updateUser(
-                            User(user.id, tilUsername.text, user.cpf,
-                                user.email, tilPhone.text, user.password, tilAge.text.toInt(),
-                                tilSalary.text.toFloat()))
+                        lifecycleScope.launch {
+                            viewModel.updateUser(
+                                User(user.id, tilUsername.text, user.cpf,
+                                    user.email, tilPhone.text, user.password, tilAge.text.toInt(),
+                                    tilSalary.text.toFloat()))
+                        }
                     }
                 }
             }
@@ -73,8 +76,6 @@ class EditUserActivity : AppCompatActivity() {
         viewModel.updateUser.observe(this) {
             if (it) {
                 startActivity(Intent(this, MainActivity::class.java))
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.navigation_profile, ProfileFragment())
             } else {
                 Toast.makeText(this, R.string.txt_unexpected_error, Toast.LENGTH_SHORT).show()
             }

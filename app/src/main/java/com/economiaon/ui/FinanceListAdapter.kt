@@ -49,9 +49,16 @@ class FinanceListAdapter : ListAdapter<Finance, FinanceListAdapter.ViewHolder>(D
                 val installmentStart: LocalDate = LocalDate.parse(item.initialDate)
                 val installmentEnd: LocalDate = LocalDate.parse(item.finalDate)
                 val installmentsDuration = Period.between(installmentStart, LocalDate.now()).months
-                val finalMonth = Period.between(installmentStart, installmentEnd).months
-                tvFinPeriod.text =
-                    context.getString(R.string.finance_time, installmentsDuration + 1, finalMonth)
+                var finalMonth = Period.between(installmentStart, installmentEnd).years
+                if (finalMonth == 0) {
+                    finalMonth = Period.between(installmentStart, installmentEnd).months
+                    tvFinPeriod.text =
+                        context.getString(R.string.finance_time, installmentsDuration + 1,
+                            finalMonth)
+                } else {
+                    tvFinPeriod.text =
+                        context.getString(R.string.finance_time, installmentsDuration + 1, finalMonth * 12)
+                }
                 tvFinPrice.text = String.format(Locale.getDefault(), "$%.2f", item.financePrice)
                 btnEditFin.setOnClickListener {
                     val intent = Intent(context, AddFinanceActivity::class.java)
@@ -64,13 +71,10 @@ class FinanceListAdapter : ListAdapter<Finance, FinanceListAdapter.ViewHolder>(D
                         .setMessage(R.string.txt_warning_delete_finance)
                         .setPositiveButton(android.R.string.ok) { _, _ ->
                             val deletedFinance = ApiService.getInstance().deleteFinance(item.id)
-                            deletedFinance.enqueue(object : Callback<Nothing> {
-                                override fun onResponse(
-                                    call: Call<Nothing>,
-                                    response: Response<Nothing>
-                                ) {
+                            deletedFinance.enqueue(object : Callback<Void> {
+                                override fun onResponse(call: Call<Void>, response: Response<Void>) {
                                     if (response.code() == HttpURLConnection.HTTP_NO_CONTENT) {
-                                        notifyItemRemoved(item.id.toInt())
+                                        notifyDataSetChanged()
                                         Toast.makeText(
                                             context, R.string.txt_finance_deleted,
                                             Toast.LENGTH_SHORT
@@ -83,7 +87,7 @@ class FinanceListAdapter : ListAdapter<Finance, FinanceListAdapter.ViewHolder>(D
                                     }
                                 }
 
-                                override fun onFailure(call: Call<Nothing>, t: Throwable) {
+                                override fun onFailure(call: Call<Void>, t: Throwable) {
                                     Toast.makeText(
                                         context, R.string.txt_unexpected_error,
                                         Toast.LENGTH_SHORT
