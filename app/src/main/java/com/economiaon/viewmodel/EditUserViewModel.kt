@@ -16,8 +16,8 @@ class EditUserViewModel(private val userRepository: UserRepository): ViewModel()
 
     fun updateUser(user: User) {
         val newUser = userRepository.updateUser(user)
-        newUser.enqueue(object : Callback<Nothing> {
-            override fun onResponse(call: Call<Nothing>, response: Response<Nothing>) {
+        newUser.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.code() == HttpURLConnection.HTTP_NO_CONTENT) {
                     _updateUser.postValue(true)
                 } else {
@@ -25,7 +25,7 @@ class EditUserViewModel(private val userRepository: UserRepository): ViewModel()
                 }
             }
 
-            override fun onFailure(call: Call<Nothing>, t: Throwable) {
+            override fun onFailure(call: Call<Void>, t: Throwable) {
                 _updateUser.postValue(false)
             }
 

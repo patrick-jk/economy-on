@@ -22,22 +22,20 @@ class FinancesListFragment : Fragment() {
     private val adapter by lazy { FinanceListAdapter() }
     private var _binding: FragmentFinancesListBinding? = null
     private val binding get() = _binding!!
+    private val _userPrefs by lazy { UserPreferences(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        val userPrefs = UserPreferences(requireContext())
         lifecycleScope.launch {
-            userPrefs.userId.collect {
+            _userPrefs.userId.collect {
                 if (it != null) {
                     viewModel.getFinanceList(it)
                 }
             }
         }
-
 
         _binding = FragmentFinancesListBinding.inflate(inflater, container, false)
         binding.rvFinances.adapter = adapter
@@ -53,20 +51,33 @@ class FinancesListFragment : Fragment() {
                 is FinancesListViewModel.State.Success -> {
                     dialog.dismiss()
                     adapter.submitList(it.list)
+                    if (it.list.isNotEmpty()) binding.tvTitle.visibility = View.GONE
                 }
             }
+
         }
 
 
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            _userPrefs.userId.collect { id ->
+                if (id != null) {
+                    adapter.isDeleted.observe(viewLifecycleOwner) {
+                        if (it) {
+                            viewModel.getFinanceList(id)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        fun newInstance() = FinancesListFragment()
     }
 }

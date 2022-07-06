@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +25,8 @@ import java.time.Period
 import java.util.*
 
 class FinanceListAdapter : ListAdapter<Finance, FinanceListAdapter.ViewHolder>(DiffCallback()) {
+    private val _isDeleted = MutableLiveData<Boolean>()
+    val isDeleted: LiveData<Boolean> = _isDeleted
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -48,16 +52,26 @@ class FinanceListAdapter : ListAdapter<Finance, FinanceListAdapter.ViewHolder>(D
                 }
                 val installmentStart: LocalDate = LocalDate.parse(item.initialDate)
                 val installmentEnd: LocalDate = LocalDate.parse(item.finalDate)
-                val installmentsDuration = Period.between(installmentStart, LocalDate.now()).months
-                var finalMonth = Period.between(installmentStart, installmentEnd).years
-                if (finalMonth == 0) {
-                    finalMonth = Period.between(installmentStart, installmentEnd).months
-                    tvFinPeriod.text =
-                        context.getString(R.string.finance_time, installmentsDuration + 1,
-                            finalMonth)
+                val initialInstallmentPeriod = Period.between(installmentStart, LocalDate.now())
+                val finalInstallmentPeriod = Period.between(installmentStart, installmentEnd)
+
+                val initialInstallment =  if (initialInstallmentPeriod.years == 0) {
+                    initialInstallmentPeriod.months
                 } else {
+                    initialInstallmentPeriod.years * 12 + initialInstallmentPeriod.months
+                }
+
+                if (finalInstallmentPeriod.years == 0) {
+                    val finalInstallment = finalInstallmentPeriod.months
                     tvFinPeriod.text =
-                        context.getString(R.string.finance_time, installmentsDuration + 1, finalMonth * 12)
+                        context.getString(R.string.finance_time, initialInstallment + 1,
+                            finalInstallment)
+                } else {
+                    val remainingYearsInMonths = finalInstallmentPeriod.years * 12
+                    val remainingMonths = finalInstallmentPeriod.months
+                    tvFinPeriod.text =
+                        context.getString(R.string.finance_time, initialInstallment + 1,
+                            remainingYearsInMonths + remainingMonths)
                 }
                 tvFinPrice.text = String.format(Locale.getDefault(), "$%.2f", item.financePrice)
                 btnEditFin.setOnClickListener {
@@ -74,12 +88,13 @@ class FinanceListAdapter : ListAdapter<Finance, FinanceListAdapter.ViewHolder>(D
                             deletedFinance.enqueue(object : Callback<Void> {
                                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                                     if (response.code() == HttpURLConnection.HTTP_NO_CONTENT) {
-                                        notifyDataSetChanged()
+                                        _isDeleted.postValue(true)
                                         Toast.makeText(
                                             context, R.string.txt_finance_deleted,
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     } else {
+                                        _isDeleted.postValue(false)
                                         Toast.makeText(
                                             context, R.string.txt_unexpected_error,
                                             Toast.LENGTH_SHORT

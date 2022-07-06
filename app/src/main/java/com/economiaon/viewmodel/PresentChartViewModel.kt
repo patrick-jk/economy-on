@@ -1,4 +1,4 @@
-package com.economiaon.ui.navigation.financeschart
+package com.economiaon.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class FinancesOverviewViewModel(private val listFinances: ListFinancesByUserIdUseCase): ViewModel() {
+class PresentChartViewModel(private val listFinances: ListFinancesByUserIdUseCase): ViewModel() {
     private val _financesList = MutableLiveData<State>()
     val financesList: LiveData<State> = _financesList
 

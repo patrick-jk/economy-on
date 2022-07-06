@@ -37,19 +37,28 @@ class RegisterActivity : AppCompatActivity() {
                 with(Validator) {
                     val validateUsername = validateField(
                         tilUsername, R.string.txt_invalid_username,
-                        context
-                    )
-                    val validateCpf = validateField(tilCpf, R.string.txt_invalid_cpf, context)
-                    val validateCellphone = validateField(
-                        tilCellphoneNumber,
-                        R.string.txt_invalid_cellphone, context
-                    )
+                        context)
+                    val validateCpf = if (edtCpf.unMasked.isBlank()) {
+                        tilCpf.error = resources.getString(R.string.txt_invalid_cpf)
+                        tilCpf.requestFocus()
+                        true
+                    } else {
+                        tilCpf.isErrorEnabled = false
+                        false
+                    }
+                    val validateCellphone = if (edtPhone.unMasked.isBlank()) {
+                        tilCellphoneNumber.error = resources.getString(R.string.txt_invalid_cellphone)
+                        tilCellphoneNumber.requestFocus()
+                        true
+                    } else {
+                        tilCellphoneNumber.isErrorEnabled = false
+                        false
+                    }
                     val validateEmail =
                         validateEmailInfo(tilEmail, R.string.txt_invalid_email, context)
                     val validatePassword = validateField(
                         tilPassword, R.string.txt_invalid_password,
-                        context
-                    )
+                        context)
                     val validateEmailConfirmation = if (tilEmail.text != tilConfirmEmail.text) {
                         tilConfirmEmail.error = resources.getString(R.string.txt_emails_different)
                         tilConfirmEmail.requestFocus()
@@ -84,8 +93,8 @@ class RegisterActivity : AppCompatActivity() {
                 if (viewModel.isUserAlreadyRegistered.value == true) {
                     return@setOnClickListener
                 }
-                viewModel.registerUser(User(id = 0, name = tilUsername.text, cpf = tilCpf.text,
-                        email = tilEmail.text, cellphoneNumber = tilCellphoneNumber.text,
+                viewModel.registerUser(User(id = 0, name = tilUsername.text, cpf = edtCpf.masked,
+                        email = tilEmail.text, cellphoneNumber = edtPhone.masked,
                         password = tilPassword.text, age = tilAge.text.toInt(),
                         salary = tilSalary.text.toFloat()))
             }
@@ -103,6 +112,7 @@ class RegisterActivity : AppCompatActivity() {
                 val intent = Intent(applicationContext, LoginActivity::class.java)
                 intent.putExtra(LoginActivity.EMAIL, _binding.tilEmail.text)
                 intent.putExtra(LoginActivity.PASSWORD, _binding.tilPassword.text)
+                startActivity(intent)
             } else {
                 Toast.makeText(this, R.string.txt_user_fail_to_register, Toast.LENGTH_SHORT).show()
             }

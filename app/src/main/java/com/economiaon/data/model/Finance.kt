@@ -7,7 +7,7 @@ import java.math.BigDecimal
 
 @Parcelize
 data class Finance(
-    val id: Long = 0, var name: String, var type: FinanceType,
+    val id: Long, var name: String, var type: FinanceType,
     @SerializedName("value") var financePrice: BigDecimal,
     @SerializedName("initial_date") var initialDate: String,
     @SerializedName("final_date") var finalDate: String,

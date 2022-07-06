@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.economiaon.R
 import com.economiaon.data.UserPreferences
@@ -11,6 +12,7 @@ import com.economiaon.databinding.ActivityLoginBinding
 import com.economiaon.util.Validator
 import com.economiaon.util.text
 import com.economiaon.viewmodel.LoginViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -29,6 +31,11 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                viewModel.isLoading.value
+            }
+        }
         setContentView(_binding.root)
         val userLogged = runBlocking { _userPrefs.isUserLogged.first() }
         if (userLogged == true) {
@@ -88,7 +95,11 @@ class LoginActivity : AppCompatActivity() {
         viewModel.userInfo.observe(this) {
             if (it != null) {
                 lifecycleScope.launch {
-                    _userPrefs.saveUserId(it.id)
+                    _userPrefs.userId.collect { id ->
+                        if (id == null) {
+                            _userPrefs.saveUserId(it.id)
+                        }
+                    }
                 }
             }
         }

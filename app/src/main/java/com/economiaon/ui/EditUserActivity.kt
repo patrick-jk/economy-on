@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import com.economiaon.R
 import com.economiaon.data.model.User
 import com.economiaon.databinding.ActivityEditUserBinding
-import com.economiaon.ui.navigation.profile.ProfileFragment
 import com.economiaon.util.text
 import com.economiaon.viewmodel.EditUserViewModel
 import kotlinx.coroutines.launch
@@ -58,7 +57,7 @@ class EditUserActivity : AppCompatActivity() {
                         lifecycleScope.launch {
                             viewModel.updateUser(
                                 User(user.id, tilUsername.text, user.cpf,
-                                    user.email, tilPhone.text, user.password, tilAge.text.toInt(),
+                                    user.email, edtPhone.masked, user.password, tilAge.text.toInt(),
                                     tilSalary.text.toFloat()))
                         }
                     }

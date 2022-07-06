@@ -11,17 +11,18 @@ import com.economiaon.R
 import com.economiaon.data.UserPreferences
 import com.economiaon.data.model.Finance
 import com.economiaon.data.model.FinanceType
-import com.economiaon.data.model.User
 import com.economiaon.databinding.ActivityAddFinanceBinding
 import com.economiaon.util.text
 import com.economiaon.viewmodel.AddFinanceViewModel
+import com.santalu.maskara.Mask
+import com.santalu.maskara.MaskChangedListener
+import com.santalu.maskara.MaskStyle
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.sql.Date
 import java.text.SimpleDateFormat
 
-@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class AddFinanceActivity : AppCompatActivity() {
     private val _binding by lazy { ActivityAddFinanceBinding.inflate(layoutInflater) }
     private val viewModel by viewModel<AddFinanceViewModel>()
@@ -54,7 +55,15 @@ class AddFinanceActivity : AppCompatActivity() {
 
     @SuppressLint("SimpleDateFormat")
     private fun setupUi() {
+        val dateMask = Mask(value = "__/__/____", character = '_', style = MaskStyle.PERSISTENT)
+
+        val initialDateListener = MaskChangedListener(dateMask)
+        _binding.tilFinanceStart.editText?.addTextChangedListener(initialDateListener)
+
+        val finalDateListener = MaskChangedListener(dateMask)
+        _binding.tilFinanceEnd.editText?.addTextChangedListener(finalDateListener)
         _binding.apply {
+
             btnCreateFin.setOnClickListener {
                 if (tilFinanceName.text.isBlank()) {
                     tilFinanceName.error = resources.getString(R.string.txt_finance_name_error)
@@ -66,12 +75,12 @@ class AddFinanceActivity : AppCompatActivity() {
                     tilFinanceType.requestFocus()
                     return@setOnClickListener
                 }
-                if (tilFinanceStart.text.isBlank()) {
+                if (initialDateListener.unMasked.isBlank()) {
                     tilFinanceStart.error = resources.getString(R.string.txt_finance_start_error)
                     tilFinanceStart.requestFocus()
                     return@setOnClickListener
                 }
-                if (tilFinanceEnd.text.isBlank()) {
+                if (finalDateListener.unMasked.isBlank()) {
                     tilFinanceEnd.error = resources.getString(R.string.txt_finance_end_error)
                     tilFinanceEnd.requestFocus()
                     return@setOnClickListener
@@ -85,17 +94,16 @@ class AddFinanceActivity : AppCompatActivity() {
                 val pattern = SimpleDateFormat("yyyy-MM-dd")
                 viewModel.getUserById(userId)
                 viewModel.loggedUser.observe(this@AddFinanceActivity) {
-                    lifecycleScope.launch {
-                        if (it == null) return@launch
+                        if (it == null) return@observe
                         lifecycleScope.launch {
-                            viewModel.saveFinance(Finance(id = 0, name = tilFinanceName.text,
+                            viewModel.saveFinance(
+                                Finance(id = 0, name = tilFinanceName.text,
                                 type = toFinanceTypeEnum(tilFinanceType.text),
                                 financePrice = tilFinancePrice.text.toBigDecimal(),
-                                initialDate = Date.valueOf(pattern.format(inputPattern.parse(tilFinanceStart.text))).toString(),
-                                finalDate = Date.valueOf(pattern.format(inputPattern.parse(tilFinanceEnd.text))).toString(),
+                                initialDate = Date.valueOf(pattern.format(inputPattern.parse(initialDateListener.masked)!!)).toString(),
+                                finalDate = Date.valueOf(pattern.format(inputPattern.parse(finalDateListener.masked)!!)).toString(),
                                 user = it))
                         }
-                    }
                 }
             }
         }
@@ -107,8 +115,8 @@ class AddFinanceActivity : AppCompatActivity() {
                         tilFinanceName.text = finance.name
                         val pattern = SimpleDateFormat("yyyy-MM-dd")
                         val inputPattern = SimpleDateFormat("dd/MM/yyyy")
-                        tilFinanceStart.text = Date.valueOf(inputPattern.format(pattern.parse(finance.initialDate))).toString()
-                        tilFinanceEnd.text = finance.finalDate
+                        tilFinanceStart.text = inputPattern.format(pattern.parse(finance.initialDate)!!)
+                        tilFinanceEnd.text = inputPattern.format(pattern.parse(finance.finalDate)!!)
                         tilFinanceType.text = defineFinanceType(finance)
                         tilFinancePrice.text = finance.financePrice.toString()
                         btnCreateFin.text = resources.getString(R.string.txt_edit_finance)
@@ -118,15 +126,17 @@ class AddFinanceActivity : AppCompatActivity() {
                                 viewModel.getUserById(userId)
                             }
                             if (viewModel.loggedUser.value == null) return@setOnClickListener
-                            lifecycleScope.launch {
-                                val newFinance = Finance(id = userId,
-                                    name = tilFinanceName.text,
-                                    type = toFinanceTypeEnum(tilFinanceType.text),
-                                    financePrice = tilFinancePrice.text.toBigDecimal(),
-                                    initialDate = Date.valueOf(pattern.format(inputPattern.parse(tilFinanceStart.text))).toString(),
-                                    finalDate = Date.valueOf(pattern.format(inputPattern.parse(tilFinanceEnd.text))).toString(),
-                                    user = viewModel.loggedUser.value as User)
-                                viewModel.updateFinance(newFinance)
+                            viewModel.loggedUser.observe(this@AddFinanceActivity) { user ->
+                                lifecycleScope.launch {
+                                    val newFinance = Finance(id = finance.id,
+                                        name = tilFinanceName.text,
+                                        type = toFinanceTypeEnum(tilFinanceType.text),
+                                        financePrice = tilFinancePrice.text.toBigDecimal(),
+                                        initialDate = Date.valueOf(pattern.format(inputPattern.parse(initialDateListener.masked)!!)).toString(),
+                                        finalDate = Date.valueOf(pattern.format(inputPattern.parse(finalDateListener.masked)!!)).toString(),
+                                        user = user!!)
+                                    viewModel.updateFinance(newFinance)
+                                }
                             }
                         }
                     }

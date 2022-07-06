@@ -11,8 +11,8 @@
     <string name="finance_period_start">Initial date</string>
     <string name="finance_period_end">Final date</string>
     <string name="finance_price">Price</string>
-    <string name="txt_used_balance">Used balance: %1$%</string>
-    <string name="txt_remaining_balance">Remaining balance: \nR$: %1$.2f</string>
+    <string name="txt_used_balance">Used balance: %1$.2f</string>
+    <string name="txt_remaining_balance">Remaining balance: \n$: %1$.2f</string>
     <string name="txt_check_finances">Check my finances</string>
     <string name="txt_add_new_finance">Add new finance</string>
     <string name="txt_overview_period">Period</string>
@@ -40,8 +40,8 @@
     <string name="overview_future">Future</string>
     <string name="txt_register">Register</string>
     <string name="txt_hint_name">Name</string>
-    <string name="txt_hint_cpf">CPF</string>
-    <string name="txt_hint_email">Email</string>
+    <string name="txt_hint_cpf" translatable="false">CPF</string>
+    <string name="txt_hint_email" translatable="false">Email</string>
     <string name="txt_hint_password">Password</string>
     <string name="txt_hint_age">Age</string>
     <string name="txt_hint_salary">Salary</string>
@@ -76,7 +76,7 @@
     <string name="txt_delete_finance">Do you want to delete this finance?</string>
     <string name="txt_finance_deleted">Finance deleted successfully.</string>
     <string name="txt_warning_delete_finance">Warning: You cannot undo this.</string>
-    <string name="txt_user_salary">$%1$.2f</string>
+    <string name="txt_user_salary" translatable="false">$%1$.2f</string>
     <string name="txt_edit_user_title">Edit Info</string>
     <string name="txt_save">Save</string>
     <string name="txt_edit_info">Edit</string>
@@ -84,4 +84,15 @@
     <string name="txt_user_info_phone">Phone: %s</string>
     <string name="txt_user_info_age">Age: %d</string>
     <string name="txt_user_info_salary">Salary: %1$.2f</string>
+    <string name="first_month">Month 01</string>
+    <string name="second_month">Month 02</string>
+    <string name="third_month">Month 03</string>
+    <string name="forth_month">Month 04</string>
+    <string name="fifth_month">Month 05</string>
+    <string name="sixth_month">Month 06</string>
+    <string name="txt_user_in_dedit">In debit! In the next month you need to avoid this.</string>
+    <string name="txt_finances_ok">Everything going good! Your finances match your salary.</string>
+    <string name="txt_finance_savings">Nice! You\'re saving money correctly.</string>
+    <string name="txt_empty_list">Your finances list is empty! Add some finance to be shown here.</string>
+    <string name="txt_used_balance_default">Used balance: 0</string>
 </resources>

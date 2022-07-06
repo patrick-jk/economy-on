@@ -41,7 +41,11 @@
         android:hint="@string/txt_hint_cellphone_number"
         app:layout_constraintTop_toBottomOf="@id/til_username">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.santalu.maskara.widget.MaskEditText
+            android:id="@+id/edt_phone"
+            app:mask="(__) _____-____"
+            app:maskCharacter="_"
+            app:maskStyle="persistent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="number" />

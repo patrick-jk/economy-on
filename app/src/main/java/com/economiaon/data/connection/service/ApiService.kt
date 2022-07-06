@@ -18,7 +18,7 @@ interface ApiService {
     fun saveUser(@Body user: User) : Call<User>
 
     @PUT("users")
-    fun updateUser(@Body user: User) : Call<Nothing>
+    fun updateUser(@Body user: User) : Call<Void>
 
     @GET("finances/find")
     suspend fun getFinancesByUserId(@Query("userId") userId: Long) : List<Finance>
@@ -27,7 +27,7 @@ interface ApiService {
     fun saveFinance(@Body finance: Finance) : Call<Finance>
 
     @PUT("finances")
-    fun updateFinance(@Body finance: Finance) : Call<Nothing>
+    fun updateFinance(@Body finance: Finance) : Call<Void>
 
     @DELETE("finances/{id}")
     fun deleteFinance(@Path("id") financeId: Long): Call<Void>
@@ -35,7 +35,7 @@ interface ApiService {
     companion object {
         private val apiService by lazy {
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8080/api/")
+                .baseUrl("http://192.168.100.137:8080/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 

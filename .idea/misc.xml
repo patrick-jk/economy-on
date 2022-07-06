@@ -6,6 +6,7 @@
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/drawable/cardview_shape.xml" value="0.115" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/drawable/ic_person.xml" value="0.1105" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/drawable/ic_person_24dp.xml" value="0.1105" />
+        <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/drawable/ic_splash_logo.xml" value="0.1575" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/activity_add_finance.xml" value="0.25" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/activity_finances.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/activity_login.xml" value="0.33" />
@@ -14,9 +15,12 @@
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/dropdown_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/fragment_dashboard.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/fragment_finances.xml" value="0.1712962962962963" />
+        <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/fragment_finances_list.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/fragment_future_chart.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/fragment_latest_finances.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/fragment_overview_finances.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/fragment_overview_finances.xml" value="0.5" />
+        <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/fragment_present_chart.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/fragment_profile.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/layout/item_finances.xml" value="0.33" />
         <entry key="..\:/Users/Celso/AndroidStudioProjects/EconomiaON/app/src/main/res/menu/bottom_nav_menu.xml" value="0.16203703703703703" />

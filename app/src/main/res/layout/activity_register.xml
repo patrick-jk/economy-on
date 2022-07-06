@@ -17,6 +17,7 @@
             android:layout_margin="@dimen/layout_padding"
             android:text="@string/txt_register"
             android:textSize="40sp"
+            android:textColor="#020518"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -50,9 +51,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_username">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.santalu.maskara.widget.MaskEditText
+                android:id="@+id/edt_cpf"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:mask="___.___.___-__"
+                app:maskCharacter="_"
+                app:maskStyle="persistent"
                 android:hint="@string/txt_hint_cpf"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -68,7 +73,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_cpf">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.santalu.maskara.widget.MaskEditText
+                android:id="@+id/edt_phone"
+                app:mask="(__) _____-____"
+                app:maskCharacter="_"
+                app:maskStyle="persistent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/txt_hint_cellphone_number"

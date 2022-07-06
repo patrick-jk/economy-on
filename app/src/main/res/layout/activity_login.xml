@@ -10,6 +10,7 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#020518"
         android:layout_margin="@dimen/layout_padding"
         android:text="@string/txt_sign_in"
         android:textSize="40sp"

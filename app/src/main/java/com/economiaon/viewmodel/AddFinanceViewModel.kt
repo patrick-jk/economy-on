@@ -25,10 +25,10 @@ class AddFinanceViewModel(private val financeRepository: FinanceRepository,
     val isFinanceCreated: LiveData<Boolean> = _isFinanceCreated
 
     fun updateFinance(finance: Finance) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val updateFinance = financeRepository.updateFinance(finance)
-            updateFinance.enqueue(object : Callback<Nothing> {
-                override fun onResponse(call: Call<Nothing>, response: Response<Nothing>) {
+            updateFinance.enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.code() == HttpURLConnection.HTTP_NO_CONTENT) {
                         _isFinanceUpdated.postValue(true)
                     } else {
@@ -36,7 +36,7 @@ class AddFinanceViewModel(private val financeRepository: FinanceRepository,
                     }
                 }
 
-                override fun onFailure(call: Call<Nothing>, t: Throwable) {
+                override fun onFailure(call: Call<Void>, t: Throwable) {
                     _isFinanceUpdated.postValue(false)
                 }
 

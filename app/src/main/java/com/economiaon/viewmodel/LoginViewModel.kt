@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.economiaon.data.repo.UserRepository
 import com.economiaon.data.model.User
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,6 +21,15 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
     val isUserLogged: LiveData<Boolean> = _isUserLogged
     private val _userInfo = MutableLiveData<User?>()
     val userInfo: LiveData<User?> = _userInfo
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading = _isLoading.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            delay(3000)
+            _isLoading.value = false
+        }
+    }
 
     fun checkUserInfo(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {

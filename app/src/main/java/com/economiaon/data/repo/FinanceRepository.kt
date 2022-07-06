@@ -19,6 +19,4 @@ class FinanceRepository(private val apiService: ApiService) {
     fun saveFinance(finance: Finance) = apiService.saveFinance(finance)
 
     fun updateFinance(finance: Finance) = apiService.updateFinance(finance)
-
-    fun deleteFinance(financeId: Long) = apiService.deleteFinance(financeId)
 }

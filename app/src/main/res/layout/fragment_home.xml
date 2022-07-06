@@ -7,12 +7,13 @@
     tools:context=".ui.navigation.home.HomeFragment">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcv_root"
         android:background="@drawable/card_view_shape"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:checkable="true"
-        android:clickable="true"
+        android:clickable="false"
         android:elevation="8dp"
         android:focusable="true"
         app:cardCornerRadius="8dp"
@@ -26,8 +27,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_person"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginVertical="16dp"
                 android:layout_marginStart="16dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,8 +40,9 @@
                 android:id="@+id/tv_used_balance_percent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/txt_used_balance"
+                android:layout_marginStart="12dp"
+                android:textColor="#020518"
+                android:text="@string/txt_used_balance_default"
                 android:textSize="30sp"
                 app:layout_constraintStart_toEndOf="@id/iv_person"
                 app:layout_constraintTop_toTopOf="@id/iv_person" />
@@ -49,26 +51,40 @@
                 android:id="@+id/tv_remaining_balance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="32dp"
                 android:text="@string/txt_remaining_balance"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="24sp"
+                android:textColor="#020518"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_person" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_check_finances"
+                android:id="@+id/tv_add_finance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:paddingBottom="16dp"
-                android:text="@string/txt_check_finances"
-                android:textSize="14sp"
+                android:layout_marginTop="16dp"
+                android:textColor="#020518"
+                android:text="@string/txt_add_new_finance"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@id/iv_person"
                 app:layout_constraintTop_toBottomOf="@id/tv_remaining_balance" />
 
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_balance_status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="@dimen/layout_padding"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@id/mcv_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
