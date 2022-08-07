@@ -15,9 +15,12 @@
 
 ## Technologies
 
+- Clean Architecture
 - MVVM
 - Kotlin Coroutines
 - LiveData
 - Retrofit
 - Fragments
-- Navigation
+- Navigation Component
+- SplashScreen API
+- ViewBinding
