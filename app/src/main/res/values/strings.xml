@@ -63,7 +63,7 @@
     <string name="txt_user_fail_to_register">Error registering user! Try again later.</string>
     <string name="txt_user_not_exists">There\'s no user with this info! Check if the email or password is correct.</string>
     <string name="txt_no_account">Don\'t have account? Consider registering \nfirst.</string>
-    <string name="txt_user_already_registered">User already registered! Please, make login.</string>
+    <string name="txt_user_already_registered">User already registered! Please, do login.</string>
     <string name="txt_edit_finance">Edit Finance</string>
     <string name="txt_finance_updated">Finance updated successfully!</string>
     <string name="txt_finance_created">Finance created successfully!</string>
@@ -95,4 +95,5 @@
     <string name="txt_finance_savings">Nice! You\'re saving money correctly.</string>
     <string name="txt_empty_list">Your finances list is empty! Add some finance to be shown here.</string>
     <string name="txt_used_balance_default">Used balance: 0</string>
+    <string name="txt_delete_finance_btn">Delete Finance</string>
 </resources>

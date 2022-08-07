@@ -7,12 +7,12 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_overview_finances"
+        android:id="@+id/navigation_finances_chart"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/title_finances" />
 
     <item
-        android:id="@+id/navigation_finance_list"
+        android:id="@+id/navigation_finances_list"
         android:icon="@drawable/ic_history_24dp"
         android:title="@string/title_latest_finances" />
 

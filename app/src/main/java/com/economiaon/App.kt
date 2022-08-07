@@ -1,9 +1,9 @@
 package com.economiaon
 
 import android.app.Application
-import com.economiaon.data.repo.di.RepositoryModule
-import com.economiaon.data.connection.service.di.ApiModule
-import com.economiaon.viewmodel.di.ViewModelModule
+import com.economiaon.data.di.DataModule
+import com.economiaon.domain.di.DomainModule
+import com.economiaon.presentation.di.PresentationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -15,8 +15,8 @@ class App : Application() {
             androidContext(this@App)
         }
 
-        ApiModule.loadApiModule()
-        ViewModelModule.load()
-        RepositoryModule.load()
+        DataModule.load()
+        DomainModule.load()
+        PresentationModule.load()
     }
 }

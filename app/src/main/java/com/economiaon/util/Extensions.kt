@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import com.economiaon.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
+import retrofit2.HttpException
 
 var TextInputLayout.text: String
     get() = editText?.text?.toString() ?: ""
@@ -30,8 +31,7 @@ fun Context.createDialog(block: MaterialAlertDialogBuilder.() -> Unit = {}): Ale
 
 fun Context.createProgressDialog(): AlertDialog {
     return createDialog {
-        val padding =
-            this@createProgressDialog.resources.getDimensionPixelOffset(R.dimen.layout_padding)
+        val padding = this@createProgressDialog.resources.getDimensionPixelOffset(R.dimen.layout_padding)
         val progressBar = ProgressBar(this@createProgressDialog)
         progressBar.setPadding(padding, padding, padding, padding)
         setView(progressBar)
@@ -39,4 +39,8 @@ fun Context.createProgressDialog(): AlertDialog {
         setPositiveButton(null, null)
         setCancelable(false)
     }
+}
+
+fun HttpException.throwRemoteException(errorMessage: String) {
+    throw RemoteException(this.message ?: errorMessage)
 }

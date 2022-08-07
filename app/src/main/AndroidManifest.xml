@@ -14,13 +14,13 @@
         android:theme="@style/Theme.EconomiaON"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.EditUserActivity"
+            android:name=".presentation.edituser.EditUserActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.RegisterActivity"
+            android:name=".presentation.register.RegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".presentation.login.LoginActivity"
             android:theme="@style/Theme.EconomiaON.SplashScreen"
             android:exported="true">
             <intent-filter>
@@ -30,11 +30,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.AddFinanceActivity"
+            android:name=".presentation.addfinance.AddFinanceActivity"
             android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true" />
     </application>
 

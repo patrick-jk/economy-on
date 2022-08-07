@@ -5,7 +5,7 @@
     android:id="@+id/add_finance_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AddFinanceActivity">
+    tools:context=".presentation.addfinance.AddFinanceActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -104,12 +104,25 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_create_fin"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/cd_fab_add_finance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_finance_price" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_delete_fin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/layout_padding"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#ff0000"
+        android:text="@string/txt_delete_finance_btn"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
