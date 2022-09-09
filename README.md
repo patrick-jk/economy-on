@@ -24,3 +24,7 @@
 - Navigation Component
 - SplashScreen API
 - ViewBinding
+
+## API used (Spring Boot)
+
+If you have interest on the API behind this project, click here: [Economy On Api](https://github.com/patrick-jk/economy-on-api)
