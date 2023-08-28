@@ -1,4 +1,4 @@
-package com.economiaon.domain
+package com.economiaon.domain.usecase
 
 import com.economiaon.data.repo.FinanceRepository
 import com.economiaon.util.UseCase

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.economiaon.domain.UpdateUserUseCase
+import com.economiaon.domain.usecase.UpdateUserUseCase
 import com.economiaon.domain.model.User
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect

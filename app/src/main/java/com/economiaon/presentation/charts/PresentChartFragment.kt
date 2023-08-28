@@ -17,7 +17,8 @@ import com.github.mikephil.charting.data.PieEntry
 class PresentChartFragment : Fragment() {
     private var _binding: FragmentPresentChartBinding? = null
     private val binding get() = _binding!!
-    private val chartColors = listOf(Color.GREEN, Color.RED, Color.YELLOW, Color.MAGENTA, Color.CYAN)
+    private val chartColors =
+        listOf(Color.GREEN, Color.RED, Color.YELLOW, Color.MAGENTA, Color.CYAN)
     private val financesList: java.util.ArrayList<Finance> by lazy {
         arguments?.getParcelableArrayList<Finance>(FINANCES)
                 as java.util.ArrayList<Finance>
@@ -61,48 +62,35 @@ class PresentChartFragment : Fragment() {
     }
 
     private fun dataInfo(): ArrayList<PieEntry> {
-        val bySocialType = financesList.filter {
-            it.type == FinanceType.SOCIAL
-        }.sumOf {
-            it.financePrice
-        }
-        val bySecurityType = financesList.filter {
-            it.type == FinanceType.SECURITY
-        }.sumOf { it.financePrice }
-        val byLeisureType = financesList.filter {
-            it.type == FinanceType.LEISURE
-        }.sumOf { it.financePrice }
-        val byPersonalDevelopmentType = financesList.filter {
-            it.type == FinanceType.PERSONAL_DEVELOPMENT
-        }.sumOf { it.financePrice }
-        val byPhysiologyType = financesList.filter {
-            it.type == FinanceType.PHYSIOLOGY
-        }.sumOf { it.financePrice }
+        val bySocialType = filterListByTypeAndSumSpending(FinanceType.SOCIAL)
+        val bySecurityType = filterListByTypeAndSumSpending(FinanceType.SECURITY)
+        val byLeisureType = filterListByTypeAndSumSpending(FinanceType.LEISURE)
+        val byPersonalDevelopmentType = filterListByTypeAndSumSpending(FinanceType.PERSONAL_DEVELOPMENT)
+        val byPhysiologyType = filterListByTypeAndSumSpending(FinanceType.PHYSIOLOGY)
+
         if (bySocialType != 0.toBigDecimal() && bySecurityType != 0.toBigDecimal() &&
             byLeisureType != 0.toBigDecimal() && byPersonalDevelopmentType != 0.toBigDecimal() &&
-                byPhysiologyType != 0.toBigDecimal()) {
+            byPhysiologyType != 0.toBigDecimal()) {
             return arrayListOf(
-                PieEntry(bySocialType.toFloat(),
-                    requireContext().getString(R.string.finance_type_social)),
-                PieEntry(bySecurityType.toFloat(),
-                    requireContext().getString(R.string.finance_type_security)),
-                PieEntry(byPhysiologyType.toFloat(),
-                    requireContext().getString(R.string.finance_type_physiology)),
-                PieEntry(byLeisureType.toFloat(),
-                    requireContext().getString(R.string.finance_type_leisure)),
-                PieEntry(byPersonalDevelopmentType.toFloat(),
-                    requireContext().getString(R.string.finance_type_personal_development)))
+                PieEntry(bySocialType.toFloat(), requireContext().getString(R.string.finance_type_social)),
+                PieEntry(bySecurityType.toFloat(), requireContext().getString(R.string.finance_type_security)),
+                PieEntry(byPhysiologyType.toFloat(), requireContext().getString(R.string.finance_type_physiology)),
+                PieEntry(byLeisureType.toFloat(), requireContext().getString(R.string.finance_type_leisure)),
+                PieEntry(byPersonalDevelopmentType.toFloat(), requireContext().getString(R.string.finance_type_personal_development))
+            )
         }
-        return arrayListOf(PieEntry(bySocialType.toFloat(),
-            ""),
-            PieEntry(bySecurityType.toFloat(),
-                ""),
-            PieEntry(byPhysiologyType.toFloat(),
-                ""),
-            PieEntry(byLeisureType.toFloat(),
-                ""),
-            PieEntry(byPersonalDevelopmentType.toFloat(),
-                ""))
+        return arrayListOf(
+            PieEntry(bySocialType.toFloat(), ""),
+            PieEntry(bySecurityType.toFloat(), ""),
+            PieEntry(byPhysiologyType.toFloat(), ""),
+            PieEntry(byLeisureType.toFloat(), ""),
+            PieEntry(byPersonalDevelopmentType.toFloat(), "")
+        )
     }
 
+    private fun filterListByTypeAndSumSpending(type: FinanceType) = financesList.filter {
+        it.type == type
+    }.sumOf {
+        it.financePrice
+    }
 }

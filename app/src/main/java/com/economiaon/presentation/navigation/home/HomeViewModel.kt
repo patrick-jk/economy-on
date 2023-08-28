@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.economiaon.domain.FindUserByIdUseCase
-import com.economiaon.domain.ListFinancesByUserIdUseCase
+import com.economiaon.domain.usecase.FindUserByIdUseCase
+import com.economiaon.domain.usecase.ListFinancesByUserIdUseCase
 import com.economiaon.presentation.statepattern.FinanceState
 import com.economiaon.presentation.statepattern.UserState
 import kotlinx.coroutines.flow.catch

@@ -1,4 +1,4 @@
-package com.economiaon.domain
+package com.economiaon.domain.usecase
 
 import com.economiaon.data.repo.UserRepository
 import com.economiaon.domain.model.User

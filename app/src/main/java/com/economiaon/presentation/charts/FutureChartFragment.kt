@@ -16,6 +16,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import java.time.LocalDate
+import java.time.Month
 import java.time.Period
 
 class FutureChartFragment : Fragment() {
@@ -32,6 +33,16 @@ class FutureChartFragment : Fragment() {
     private lateinit var fifthMonthData: List<Finance>
     private lateinit var sixthMonthData: List<Finance>
 
+    private val months = enumValues<Month>()
+
+    private val financeTypeColors = mapOf(
+        FinanceType.SOCIAL to Color.RED,
+        FinanceType.SECURITY to Color.BLUE,
+        FinanceType.PHYSIOLOGY to Color.GREEN,
+        FinanceType.LEISURE to Color.LTGRAY,
+        FinanceType.PERSONAL_DEVELOPMENT to Color.CYAN
+    )
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,55 +54,23 @@ class FutureChartFragment : Fragment() {
     }
 
     private fun setupChart() {
-        val socialEntry: ArrayList<BarEntry> = arrayListOf(
-            BarEntry(1F, setupSocialFirstMonth()),
-            BarEntry(2F, setupSocialSecondMonth()),
-            BarEntry(3F, setupSocialThirdMonth()),
-            BarEntry(4F, setupSocialForthMonth()),
-            BarEntry(5F, setupSocialFifthMonth()),
-            BarEntry(6F, setupSocialSixthMonth()))
-        val securityEntry: ArrayList<BarEntry> = arrayListOf(
-            BarEntry(1F, setupSecurityFirstMonth()),
-            BarEntry(2F, setupSecuritySecondMonth()),
-            BarEntry(3F, setupSecurityThirdMonth()),
-            BarEntry(4F, setupSecurityForthMonth()),
-            BarEntry(5F, setupSecurityFifthMonth()),
-            BarEntry(6F, setupSecuritySixthMonth()))
-        val physiologyEntry: ArrayList<BarEntry> = arrayListOf(
-            BarEntry(1F, setupPhysiologyFirstMonth()),
-            BarEntry(2F, setupPhysiologySecondMonth()),
-            BarEntry(3F, setupPhysiologyThirdMonth()),
-            BarEntry(4F, setupPhysiologyForthMonth()),
-            BarEntry(5F, setupPhysiologyFifthMonth()),
-            BarEntry(6F, setupPhysiologySixthMonth()))
-        val leisureEntry: ArrayList<BarEntry> = arrayListOf(
-            BarEntry(1F, setupLeisureFirstMonth()),
-            BarEntry(2F, setupLeisureSecondMonth()),
-            BarEntry(3F, setupLeisureThirdMonth()),
-            BarEntry(4F, setupLeisureForthMonth()),
-            BarEntry(5F, setupLeisureFifthMonth()),
-            BarEntry(6F, setupLeisureSixthMonth()))
-        val personalDevEntry: ArrayList<BarEntry> = arrayListOf(
-            BarEntry(1F, setupPersonalDevFirstMonth()),
-            BarEntry(2F, setupPersonalDevSecondMonth()),
-            BarEntry(3F, setupPersonalDevThirdMonth()),
-            BarEntry(4F, setupPersonalDevForthMonth()),
-            BarEntry(5F, setupPersonalDevFifthMonth()),
-            BarEntry(6F, setupPersonalDevSixthMonth()))
+        val entriesMap = mutableMapOf<FinanceType, ArrayList<BarEntry>>()
 
-        val socialDataSet = BarDataSet(socialEntry, "Social Finances")
-        socialDataSet.color = Color.RED
-        val securityDataSet = BarDataSet(securityEntry, "Security Finances")
-        securityDataSet.color = Color.BLUE
-        val physiologyDataSet = BarDataSet(physiologyEntry, "Physiology Finances")
-        physiologyDataSet.color = Color.GREEN
-        val leisureDataSet = BarDataSet(leisureEntry, "Leisure Finances")
-        leisureDataSet.color = Color.LTGRAY
-        val personalDevDataSet = BarDataSet(personalDevEntry, "Personal Dev Finances")
-        personalDevDataSet.color = Color.CYAN
+        FinanceType.values().forEach { category ->
+            val entryList = ArrayList<BarEntry>()
+            months.forEachIndexed { index, month ->
+                val monthData = separateDataByMonth(month, category)
+                entryList.add(BarEntry(index.toFloat(), sumOfFinancePrices(monthData)))
+            }
+            entriesMap[category] = entryList
+        }
 
-        val barData = BarData(socialDataSet, securityDataSet, physiologyDataSet, leisureDataSet,
-        personalDevDataSet)
+        val barDataSets = entriesMap.map { (category, entryList) ->
+            BarDataSet(entryList, category.toString()).apply {
+                color = financeTypeColors[category] ?: Color.BLACK
+            }
+        }
+
         val types = arrayOf(
             context?.getString(R.string.first_month),
             context?.getString(R.string.second_month),
@@ -101,6 +80,9 @@ class FutureChartFragment : Fragment() {
             context?.getString(R.string.sixth_month))
 
         binding.apply {
+            val barData = BarData(*barDataSets.toTypedArray())
+            barChartFuture.data = barData
+
             barChartFuture.data = barData
             val xAxis = barChartFuture.xAxis
             xAxis.valueFormatter = IndexAxisValueFormatter(types)
@@ -119,188 +101,18 @@ class FutureChartFragment : Fragment() {
             barChartFuture.groupBars(0F, groupSpace, barSpace)
 
             barChartFuture.invalidate()
-
         }
     }
 
-    private fun setupSocialFirstMonth(): Float {
-        return firstMonthData.filter {
-            it.type == FinanceType.SOCIAL
-        }.sumOf { it.financePrice }.toFloat()
+    private fun separateDataByMonth(month: Month, type: FinanceType): List<Finance> {
+        return financesList.filter {
+            it.type == type &&
+                    Period.between(LocalDate.parse(it.initialDate), LocalDate.parse(it.finalDate)).months == month.value
+        }
     }
 
-    private fun setupSecurityFirstMonth(): Float {
-        return firstMonthData.filter {
-            it.type == FinanceType.SECURITY
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupPhysiologyFirstMonth(): Float {
-        return firstMonthData.filter {
-            it.type == FinanceType.PHYSIOLOGY
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupLeisureFirstMonth(): Float {
-        return firstMonthData.filter {
-            it.type == FinanceType.LEISURE
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupPersonalDevFirstMonth(): Float {
-        return firstMonthData.filter {
-            it.type == FinanceType.PERSONAL_DEVELOPMENT
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupSocialSecondMonth(): Float {
-        return secondMonthData.filter {
-            it.type == FinanceType.SOCIAL
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupSecuritySecondMonth(): Float {
-        return secondMonthData.filter {
-            it.type == FinanceType.SECURITY
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupPhysiologySecondMonth(): Float {
-        return secondMonthData.filter {
-            it.type == FinanceType.PHYSIOLOGY
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupLeisureSecondMonth(): Float {
-        return secondMonthData.filter {
-            it.type == FinanceType.LEISURE
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupPersonalDevSecondMonth(): Float {
-        return secondMonthData.filter {
-            it.type == FinanceType.PERSONAL_DEVELOPMENT
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupSocialThirdMonth(): Float {
-        return thirdMonthData.filter {
-            it.type == FinanceType.SOCIAL
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupSecurityThirdMonth(): Float {
-        return thirdMonthData.filter {
-            it.type == FinanceType.SECURITY
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupPhysiologyThirdMonth(): Float {
-        return thirdMonthData.filter {
-            it.type == FinanceType.PHYSIOLOGY
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupLeisureThirdMonth(): Float {
-        return thirdMonthData.filter {
-            it.type == FinanceType.LEISURE
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupPersonalDevThirdMonth(): Float {
-        return thirdMonthData.filter {
-            it.type == FinanceType.PERSONAL_DEVELOPMENT
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupSocialForthMonth(): Float {
-        return forthMonthData.filter {
-            it.type == FinanceType.SOCIAL
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupSecurityForthMonth(): Float {
-        return forthMonthData.filter {
-            it.type == FinanceType.SECURITY
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupPhysiologyForthMonth(): Float {
-        return forthMonthData.filter {
-            it.type == FinanceType.PHYSIOLOGY
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupLeisureForthMonth(): Float {
-        return forthMonthData.filter {
-            it.type == FinanceType.LEISURE
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupPersonalDevForthMonth(): Float {
-        return forthMonthData.filter {
-            it.type == FinanceType.PERSONAL_DEVELOPMENT
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupSocialFifthMonth(): Float {
-        return fifthMonthData.filter {
-            it.type == FinanceType.SOCIAL
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupSecurityFifthMonth(): Float {
-        return fifthMonthData.filter {
-            it.type == FinanceType.SECURITY
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupPhysiologyFifthMonth(): Float {
-        return fifthMonthData.filter {
-            it.type == FinanceType.PHYSIOLOGY
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupLeisureFifthMonth(): Float {
-        return fifthMonthData.filter {
-            it.type == FinanceType.LEISURE
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupPersonalDevFifthMonth(): Float {
-        return fifthMonthData.filter {
-            it.type == FinanceType.PERSONAL_DEVELOPMENT
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupSocialSixthMonth(): Float {
-        return sixthMonthData.filter {
-            it.type == FinanceType.SOCIAL
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupSecuritySixthMonth(): Float {
-        return sixthMonthData.filter {
-            it.type == FinanceType.SECURITY
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupPhysiologySixthMonth(): Float {
-        return sixthMonthData.filter {
-            it.type == FinanceType.PHYSIOLOGY
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupLeisureSixthMonth(): Float {
-        return sixthMonthData.filter {
-            it.type == FinanceType.LEISURE
-        }.sumOf { it.financePrice }.toFloat()
-    }
-
-    private fun setupPersonalDevSixthMonth(): Float {
-        return sixthMonthData.filter {
-            it.type == FinanceType.PERSONAL_DEVELOPMENT
-        }.sumOf { it.financePrice }.toFloat()
+    private fun sumOfFinancePrices(data: List<Finance>): Float {
+        return data.sumOf { it.financePrice }.toFloat()
     }
 
     companion object {
@@ -315,7 +127,7 @@ class FutureChartFragment : Fragment() {
     }
     
     private fun separateDataByMonth() {
-        for (i in 0 until financesList.size - 1) {
+        for (i in 0 until financesList.size) {
             financesList[i].type = toFinanceTypeEnum(financesList[i].type.toString())
         }
         firstMonthData = financesList.filter {

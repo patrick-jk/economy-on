@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.economiaon.domain.FindUserByEmailUseCase
-import com.economiaon.domain.SaveUserUseCase
+import com.economiaon.domain.usecase.FindUserByEmailUseCase
+import com.economiaon.domain.usecase.SaveUserUseCase
 import com.economiaon.domain.model.User
 import com.economiaon.presentation.statepattern.UserState
 import kotlinx.coroutines.flow.catch

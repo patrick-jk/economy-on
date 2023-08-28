@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.economiaon.domain.DeleteFinanceUseCase
-import com.economiaon.domain.FindUserByIdUseCase
-import com.economiaon.domain.SaveFinanceUseCase
-import com.economiaon.domain.UpdateFinanceUseCase
+import com.economiaon.domain.usecase.DeleteFinanceUseCase
+import com.economiaon.domain.usecase.FindUserByIdUseCase
+import com.economiaon.domain.usecase.SaveFinanceUseCase
+import com.economiaon.domain.usecase.UpdateFinanceUseCase
 import com.economiaon.domain.model.Finance
 import com.economiaon.presentation.statepattern.UserState
 import kotlinx.coroutines.flow.catch
