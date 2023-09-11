@@ -1,4 +1,4 @@
-package com.economiaon.data
+package com.economiaon.data.remote
 
 import com.economiaon.domain.model.Finance
 import com.economiaon.domain.model.User
