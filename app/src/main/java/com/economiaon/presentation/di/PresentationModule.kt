@@ -1,6 +1,7 @@
 package com.economiaon.presentation.di
 
 import com.economiaon.presentation.addfinance.AddFinanceViewModel
+import com.economiaon.presentation.currencyconverter.CurrencyConverterViewModel
 import com.economiaon.presentation.edituser.EditUserViewModel
 import com.economiaon.presentation.login.LoginViewModel
 import com.economiaon.presentation.navigation.financeschart.FinancesChartViewModel
@@ -8,6 +9,7 @@ import com.economiaon.presentation.navigation.financeslist.FinancesListViewModel
 import com.economiaon.presentation.navigation.home.HomeViewModel
 import com.economiaon.presentation.navigation.profile.ProfileViewModel
 import com.economiaon.presentation.register.RegisterViewModel
+import com.economiaon.presentation.taxcalculator.TaxCalculatorViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
@@ -27,5 +29,7 @@ object PresentationModule {
         viewModel { LoginViewModel(get()) }
         viewModel { ProfileViewModel(get()) }
         viewModel { RegisterViewModel(get(), get()) }
+        viewModel { TaxCalculatorViewModel() }
+        viewModel { CurrencyConverterViewModel(get()) }
     }
 }

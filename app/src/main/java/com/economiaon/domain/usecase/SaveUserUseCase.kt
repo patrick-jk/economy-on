@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
 
 class SaveUserUseCase(private val userRepository: UserRepository) :
-    UseCase<User, Call<User>>() {
-    override suspend fun execute(param: User): Flow<Call<User>> {
+    UseCase<User, User>() {
+    override suspend fun execute(param: User): Flow<User> {
         return userRepository.saveUser(param)
     }
 }

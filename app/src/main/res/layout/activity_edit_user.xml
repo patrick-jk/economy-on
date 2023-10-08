@@ -13,6 +13,7 @@
         android:layout_margin="@dimen/layout_padding"
         android:text="@string/txt_edit_user_title"
         android:textSize="36sp"
+        android:textColor="@color/text_default"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

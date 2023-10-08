@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="@string/txt_overview_period"
-        app:hintTextColor="#020518"
+        app:hintTextColor="@color/text_default"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,8 +22,7 @@
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/actv_period"
             android:layout_width="match_parent"
-            android:textColor="#020518"
-            android:textColorHint="#020518"
+            android:textColor="@color/text_default"
             android:layout_height="match_parent"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>

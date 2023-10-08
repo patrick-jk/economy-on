@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Economy ON</string>
+    <string name="app_name">Oakley Saves</string>
     <string name="title_home">Home</string>
     <string name="title_finances">Overview</string>
     <string name="title_latest_finances">History</string>
@@ -12,7 +12,7 @@
     <string name="finance_period_end">Final date</string>
     <string name="finance_price">Price</string>
     <string name="txt_used_balance">Used balance: %1$.2f</string>
-    <string name="txt_remaining_balance">Remaining balance: \n$: %1$.2f</string>
+    <string name="txt_remaining_balance">Remaining balance: %s</string>
     <string name="txt_check_finances">Check my finances</string>
     <string name="txt_add_new_finance">Add new finance</string>
     <string name="txt_overview_period">Period</string>
@@ -32,9 +32,18 @@
     </string-array>
 
     <string-array name="overview_types">
-        <item>Present</item>
-        <item>Future</item>
+        <item>Now</item>
+        <item>Next 6 Months</item>
     </string-array>
+
+    <string-array name="currency_names">
+        <item>US Dollar - USD</item>
+        <item>Brazilian Real - BRL</item>
+        <item>Euro - EUR</item>
+        <item>British Pound - GBP</item>
+        <item>Japanese Yen - JPY</item>
+    </string-array>
+
 
     <string name="overview_present">Present</string>
     <string name="overview_future">Future</string>
@@ -75,6 +84,7 @@
     <string name="txt_finance_price_error">Finance price cannot be empty.</string>
     <string name="txt_delete_finance">Do you want to delete this finance?</string>
     <string name="txt_finance_deleted">Finance deleted successfully.</string>
+    <string name="txt_finance_deleted_connect_to_internet"> Please, connect to internet to confirm the changes.</string>
     <string name="txt_warning_delete_finance">Warning: You cannot undo this.</string>
     <string name="txt_user_salary" translatable="false">$%1$.2f</string>
     <string name="txt_edit_user_title">Edit Info</string>
@@ -83,17 +93,40 @@
     <string name="txt_user_info_name">Name: %s</string>
     <string name="txt_user_info_phone">Phone: %s</string>
     <string name="txt_user_info_age">Age: %d</string>
-    <string name="txt_user_info_salary">Salary: %1$.2f</string>
+    <string name="txt_user_info_salary">Salary: %s</string>
     <string name="first_month">Month 01</string>
     <string name="second_month">Month 02</string>
     <string name="third_month">Month 03</string>
     <string name="forth_month">Month 04</string>
     <string name="fifth_month">Month 05</string>
     <string name="sixth_month">Month 06</string>
-    <string name="txt_user_in_dedit">In debit! In the next month you need to avoid this.</string>
+    <string name="txt_user_in_debit">In debit! In the next month you need to avoid this.</string>
     <string name="txt_finances_ok">Everything going good! Your finances match your salary.</string>
     <string name="txt_finance_savings">Nice! You\'re saving money correctly.</string>
-    <string name="txt_empty_list">Your finances list is empty! Add some finance to be shown here.</string>
+    <string name="txt_empty_list">Your finances list is empty!\nAdd some finance to be shown here.</string>
     <string name="txt_used_balance_default">Used balance: 0</string>
     <string name="txt_delete_finance_btn">Delete Finance</string>
+    <string name="txt_view_charts">View chart finance</string>
+    <string name="txt_more_details">See more</string>
+    <string name="txt_hello_user">Hello, %s!</string>
+    <string name="txt_spendings">Spendings</string>
+    <string name="txt_months">Months</string>
+    <string name="txt_future_spendings">Future Spendings</string>
+    <string name="txt_category_spending_title">Spendings by Category</string>
+    <string name="txt_categories_legend">Categories</string>
+    <string name="txt_calculate_taxes">Calculate Taxes</string>
+    <string name="txt_general_features">General Features</string>
+    <string name="txt_taxable_value">Value</string>
+    <string name="txt_taxable_percentage">Percentage</string>
+    <string name="btn_calculate_tax">Calculate</string>
+    <string name="txt_general_tab">General Tab</string>
+    <string name="txt_currency_converter">Currency Converter</string>
+    <string name="txt_base_currency">Original Currency</string>
+    <string name="txt_converted_currency">Final Currency</string>
+    <string name="btn_convert_currency">Convert</string>
+    <string name="txt_converted_value">Rate: %s\nValue: %s</string>
+    <string name="txt_invalid_currency">Currency cannot be empty!</string>
+    <string name="txt_invalid_value">Value cannot be empty!</string>
+    <string name="txt_empty" translatable="false" />
+    <string name="txt_update_finance">Are you sure you want to update this finance?</string>
 </resources>

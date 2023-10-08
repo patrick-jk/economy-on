@@ -1,5 +1,6 @@
 package com.economiaon.domain.di
 
+import com.economiaon.domain.usecase.ConvertCurrencyUseCase
 import com.economiaon.domain.usecase.DeleteFinanceUseCase
 import com.economiaon.domain.usecase.FindUserByEmailUseCase
 import com.economiaon.domain.usecase.FindUserByIdUseCase
@@ -26,5 +27,6 @@ object DomainModule {
         factory { SaveUserUseCase(get()) }
         factory { UpdateFinanceUseCase(get()) }
         factory { UpdateUserUseCase(get()) }
+        factory { ConvertCurrencyUseCase(get()) }
     }
 }

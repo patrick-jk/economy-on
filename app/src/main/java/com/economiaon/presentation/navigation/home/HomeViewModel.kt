@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.economiaon.domain.model.User
 import com.economiaon.domain.usecase.FindUserByIdUseCase
 import com.economiaon.domain.usecase.ListFinancesByUserIdUseCase
 import com.economiaon.presentation.statepattern.FinanceState
-import com.economiaon.presentation.statepattern.UserState
+import com.economiaon.presentation.statepattern.State
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
@@ -21,10 +21,10 @@ class HomeViewModel(
     private val _finances = MutableLiveData<FinanceState>()
     val finances: LiveData<FinanceState> = _finances
 
-    private val _user = MutableLiveData<UserState>()
-    val user: LiveData<UserState> = _user
+    private val _user = MutableLiveData<State<User>>()
+    val user: LiveData<State<User>> = _user
 
-    fun getFinanceList(userId: Long) = viewModelScope.launch {
+    fun getFinanceList(userId: String) = viewModelScope.launch {
         listFinancesByUserIdUseCase(userId)
             .onStart {
                 _finances.postValue(FinanceState.Loading)
@@ -37,16 +37,16 @@ class HomeViewModel(
             }
     }
 
-    fun getUserById(userId: Long) = viewModelScope.launch {
+    fun getUserById(userId: String) = viewModelScope.launch {
         findUserByIdUseCase(userId)
             .onStart {
-                _user.postValue(UserState.Loading)
+                _user.postValue(State.Loading("Loading..."))
             }
             .catch {
-                _user.postValue(UserState.Error(it))
+                _user.postValue(State.Error(it))
             }
             .collect {
-                _user.postValue(UserState.Success(it))
+                _user.postValue(State.Success(it))
             }
     }
 }

@@ -4,16 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.economiaon.R
-import com.economiaon.data.UserPreferences
+import com.economiaon.data.datastore.UserPreferences
 import com.economiaon.databinding.ActivityLoginBinding
 import com.economiaon.presentation.MainActivity
 import com.economiaon.presentation.register.RegisterActivity
 import com.economiaon.util.Validator
 import com.economiaon.util.text
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -32,15 +30,12 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen().apply {
-            setKeepOnScreenCondition {
-                viewModel.isLoading.value
-            }
-        }
         setContentView(_binding.root)
+
         val userLogged = runBlocking { _userPrefs.isUserLogged.first() }
         if (userLogged == true) {
             startMainActivity()
+            finish()
         }
         setupUi()
     }
@@ -71,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
                 }
                 viewModel.checkUserInfo(tilEmail.text, tilPassword.text)
             }
-            tvNoAccount.setOnClickListener {
+            btnRegister.setOnClickListener {
                 startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
             }
         }
@@ -85,8 +80,8 @@ class LoginActivity : AppCompatActivity() {
                     _userPrefs.isUserLogged.collect { isUserLogged ->
                         if (isUserLogged == null) _userPrefs.saveIsUserLogged(it)
                     }
+                    startMainActivity()
                 }
-                startMainActivity()
             } else {
                 Toast.makeText(this, R.string.txt_user_not_exists, Toast.LENGTH_SHORT).show()
             }
@@ -94,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loggedUser.observe(this) {
             lifecycleScope.launch {
                 _userPrefs.userId.collect { id ->
-                    if (id == null) _userPrefs.saveUserId(it.id)
+                    if (id == null) _userPrefs.saveUserId(it.email)
                 }
             }
         }

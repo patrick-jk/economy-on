@@ -7,14 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.economiaon.data.UserPreferences
+import com.economiaon.data.datastore.UserPreferences
 import com.economiaon.databinding.FragmentFinancesListBinding
 import com.economiaon.presentation.FinanceListAdapter
 import com.economiaon.presentation.addfinance.AddFinanceActivity
 import com.economiaon.presentation.statepattern.FinanceState
 import com.economiaon.util.createDialog
 import com.economiaon.util.createProgressDialog
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,7 +32,7 @@ class FinancesListFragment : Fragment() {
     private var _binding: FragmentFinancesListBinding? = null
     private val binding get() = _binding!!
     private val _userPrefs by lazy { UserPreferences(requireContext()) }
-    private var userId: Long? = null
+    private var userId: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         lifecycleScope.launch {
@@ -60,10 +59,11 @@ class FinancesListFragment : Fragment() {
             when (it) {
                 FinanceState.Loading -> dialog.show()
                 is FinanceState.Error -> {
-                    context?.createDialog {
+                    requireContext().createDialog {
                         setMessage(it.error.message)
-                    }
+                    }.show()
                 }
+
                 is FinanceState.Success -> {
                     dialog.dismiss()
                     adapter.submitList(it.list)

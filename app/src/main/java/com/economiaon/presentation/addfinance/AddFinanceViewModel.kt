@@ -1,5 +1,6 @@
 package com.economiaon.presentation.addfinance
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,9 +10,10 @@ import com.economiaon.domain.usecase.FindUserByIdUseCase
 import com.economiaon.domain.usecase.SaveFinanceUseCase
 import com.economiaon.domain.usecase.UpdateFinanceUseCase
 import com.economiaon.domain.model.Finance
-import com.economiaon.presentation.statepattern.UserState
+import com.economiaon.domain.model.User
+import com.economiaon.presentation.statepattern.State
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class AddFinanceViewModel(
@@ -29,9 +31,6 @@ class AddFinanceViewModel(
 
     private val _isFinanceDeleted = MutableLiveData<Boolean>()
     val isFinanceDeleted: LiveData<Boolean> = _isFinanceDeleted
-
-    private val _loggedUser = MutableLiveData<UserState>()
-    val loggedUser: LiveData<UserState> = _loggedUser
 
     fun updateFinance(finance: Finance) = viewModelScope.launch {
         updateFinanceUseCase(finance)
@@ -53,17 +52,7 @@ class AddFinanceViewModel(
             }
     }
 
-    fun getUserById(userId: Long) = viewModelScope.launch {
-        findUserByIdUseCase(userId)
-            .catch {
-                _loggedUser.postValue(UserState.Error(it))
-            }
-            .collect {
-                _loggedUser.postValue(UserState.Success(it))
-            }
-    }
-
-    fun deleteFinance(id: Long) = viewModelScope.launch {
+    fun deleteFinance(id: String) = viewModelScope.launch {
         deleteFinanceUseCase(id)
             .catch {
                 _isFinanceDeleted.postValue(false)

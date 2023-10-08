@@ -14,7 +14,7 @@
         android:paddingBottom="16dp"
         android:text="@string/title_profile"
         android:textSize="48sp"
-        android:textColor="#020518"
+        android:textColor="@color/text_default"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:textColor="#020518"
+        android:textColor="@color/text_default"
         android:paddingHorizontal="16dp"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_user_phone"
         android:layout_width="wrap_content"
-        android:textColor="#020518"
+        android:textColor="@color/text_default"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textSize="24sp"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textSize="24sp"
-        android:textColor="#020518"
+        android:textColor="@color/text_default"
         app:layout_constraintStart_toStartOf="@id/tv_user_name"
         app:layout_constraintTop_toBottomOf="@id/tv_user_phone" />
 
@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:textColor="#020518"
+        android:textColor="@color/text_default"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@id/tv_user_name"
         app:layout_constraintTop_toBottomOf="@id/tv_user_age"

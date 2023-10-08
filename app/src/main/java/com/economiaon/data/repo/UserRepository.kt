@@ -1,16 +1,20 @@
 package com.economiaon.data.repo
 
-import com.economiaon.data.ApiService
+import com.economiaon.data.local.impl.RoomUserDataSource
+import com.economiaon.data.remote.impl.FirebaseUserDataSource
 import com.economiaon.domain.model.User
 import com.economiaon.util.throwRemoteException
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 
-class UserRepository(private val apiService: ApiService) {
+class UserRepository(
+    private val firebaseUserDataSource: FirebaseUserDataSource,
+    private val roomUserDataSource: RoomUserDataSource
+) {
 
     suspend fun saveUser(user: User) = flow {
         try {
-            val savedUser = apiService.saveUser(user)
+            val savedUser = firebaseUserDataSource.saveUser(user)
             emit(savedUser)
         } catch (e: HttpException) {
             e.throwRemoteException("It was not possible saving the user.")
@@ -19,28 +23,24 @@ class UserRepository(private val apiService: ApiService) {
 
     suspend fun updateUser(user: User) = flow {
         try {
-            val updatedUser = apiService.updateUser(user)
-            emit(updatedUser)
+            val newUser = firebaseUserDataSource.updateUser(user)
+            emit(newUser)
         } catch (e: HttpException) {
             e.throwRemoteException("It was not possible updating the user.")
         }
     }
 
-    suspend fun findUserById(userId: Long) = flow {
+    suspend fun findUserById(userId: String) = flow {
         try {
-            val user = apiService.findUserById(userId)
+            val user = firebaseUserDataSource.findUser(userId)
+            roomUserDataSource.deleteUser(user)
+            roomUserDataSource.saveUser(user)
             emit(user)
         } catch (e: HttpException) {
             e.throwRemoteException("It was not possible find the user by id.")
         }
-    }
 
-    suspend fun findUserByEmail(email: String) = flow {
-        try {
-            val user = apiService.findUserByEmail(email)
-            emit(user)
-        } catch (e: HttpException) {
-            e.throwRemoteException("It was not possible find the user by email.")
-        }
+        val updatedUser = roomUserDataSource.findUser(userId)
+        emit(updatedUser)
     }
 }

@@ -1,9 +1,7 @@
 package com.economiaon.presentation.statepattern
 
-import com.economiaon.domain.model.User
-
-sealed class UserState {
-    object Loading : UserState()
-    data class Success(val user: User) : UserState()
-    data class Error(val error: Throwable) : UserState()
+sealed class State<out T> {
+    data class Loading<T>(val loadingMessage: String) : State<T>()
+    data class Success<T>(val info: T) : State<T>()
+    data class Error<T>(val error: Throwable) : State<T>()
 }

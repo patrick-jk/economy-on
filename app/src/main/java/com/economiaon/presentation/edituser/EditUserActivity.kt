@@ -32,32 +32,42 @@ class EditUserActivity : AppCompatActivity() {
                     tilSalary.text = user.salary.toString()
 
                     btnSaveChanges.setOnClickListener {
-                        if (tilUsername.text.isBlank()) {
-                            tilUsername.error = resources.getString(R.string.txt_invalid_username)
-                            tilUsername.requestFocus()
-                            return@setOnClickListener
-                        }
-                        if (tilPhone.text.isBlank()) {
-                            tilPhone.error = resources.getString(R.string.txt_invalid_cellphone)
-                            tilPhone.requestFocus()
-                            return@setOnClickListener
-                        }
-                        if (tilAge.text.isBlank()) {
-                            tilAge.error = resources.getString(R.string.txt_invalid_age)
-                            tilAge.requestFocus()
-                            return@setOnClickListener
-                        }
-                        if (tilSalary.text.isBlank()) {
-                            tilSalary.error = resources.getString(R.string.txt_invalid_salary)
-                            tilSalary.requestFocus()
-                            return@setOnClickListener
-                        }
-                        viewModel.updateUser(User(user.id, tilUsername.text, user.cpf, user.email,
-                            edtPhone.masked, user.password, tilAge.text.toInt(), tilSalary.text.toFloat()))
+                        if (checkEmptyFields()) return@setOnClickListener
+
+                        viewModel.updateUser(
+                            User(
+                                id = user.id, name = tilUsername.text, cpf = user.cpf, email = user.email,
+                                cellphoneNumber = edtPhone.masked, password = user.password, age = tilAge.text.toInt(), salary = tilSalary.text.toFloat(),
+                            )
+                        )
                     }
                 }
             }
         }
+    }
+
+    private fun ActivityEditUserBinding.checkEmptyFields(): Boolean {
+        if (tilUsername.text.isBlank()) {
+            tilUsername.error = resources.getString(R.string.txt_invalid_username)
+            tilUsername.requestFocus()
+            return true
+        }
+        if (tilPhone.text.isBlank()) {
+            tilPhone.error = resources.getString(R.string.txt_invalid_cellphone)
+            tilPhone.requestFocus()
+            return true
+        }
+        if (tilAge.text.isBlank()) {
+            tilAge.error = resources.getString(R.string.txt_invalid_age)
+            tilAge.requestFocus()
+            return true
+        }
+        if (tilSalary.text.isBlank()) {
+            tilSalary.error = resources.getString(R.string.txt_invalid_salary)
+            tilSalary.requestFocus()
+            return true
+        }
+        return false
     }
 
     companion object Extras {

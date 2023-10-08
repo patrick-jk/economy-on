@@ -1,4 +1,4 @@
-package com.economiaon.data.remote
+package com.economiaon.data.remote.impl
 
 import com.economiaon.data.domain.FinanceDataSource
 import com.economiaon.domain.model.Finance
@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.coroutines.suspendCoroutine
 
 class FirebaseFinanceDataSource(
-    private val firebaseFirestore: FirebaseFirestore
+    firebaseFirestore: FirebaseFirestore
 ) : FinanceDataSource {
 
     private val documentReference = firebaseFirestore
@@ -46,7 +46,6 @@ class FirebaseFinanceDataSource(
     }
 
     override suspend fun updateFinance(finance: Finance): Void {
-
         return suspendCoroutine { continuation ->
             financeReference.document(finance.id).set(finance).addOnSuccessListener {
                 continuation.resumeWith(Result.success(it))
@@ -56,9 +55,9 @@ class FirebaseFinanceDataSource(
         }
     }
 
-    override suspend fun deleteFinance(financeId: String): Void {
+    override suspend fun deleteAllFinancesByUser(userEmail: String): Void {
         return suspendCoroutine { continuation ->
-            financeReference.document(financeId).delete().addOnSuccessListener {
+            financeReference.document(userEmail).delete().addOnSuccessListener {
                 continuation.resumeWith(Result.success(it))
             }.addOnFailureListener { exception ->
                 continuation.resumeWith(Result.failure(exception))

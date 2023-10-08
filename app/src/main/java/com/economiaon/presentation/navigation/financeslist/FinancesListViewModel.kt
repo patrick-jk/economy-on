@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.economiaon.domain.usecase.ListFinancesByUserIdUseCase
 import com.economiaon.presentation.statepattern.FinanceState
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
@@ -18,7 +17,7 @@ class FinancesListViewModel(
     private val _finances = MutableLiveData<FinanceState>()
     val finances: LiveData<FinanceState> = _finances
 
-    fun getFinanceList(userId: Long) {
+    fun getFinanceList(userId: String) {
         viewModelScope.launch {
             listFinancesByUserIdUseCase(userId)
                 .onStart {

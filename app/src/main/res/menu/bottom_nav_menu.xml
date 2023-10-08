@@ -7,14 +7,9 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_finances_chart"
+        android:id="@+id/navigation_general_tab"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/title_finances" />
-
-    <item
-        android:id="@+id/navigation_finances_list"
-        android:icon="@drawable/ic_history_24dp"
-        android:title="@string/title_latest_finances" />
 
     <item
         android:id="@+id/navigation_profile"

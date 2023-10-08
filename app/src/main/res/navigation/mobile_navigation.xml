@@ -9,7 +9,14 @@
         android:id="@+id/navigation_home"
         android:name="com.economiaon.presentation.navigation.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_finances_list"
+            app:destination="@id/navigation_finances_list" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_finances_chart"
+            app:destination="@id/navigation_finances_chart" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_finances_chart"
@@ -28,4 +35,29 @@
         android:name="com.economiaon.presentation.navigation.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_general_tab"
+        android:name="com.economiaon.presentation.navigation.generaltab.GeneralTabFragment"
+        android:label="@string/txt_general_tab"
+        tools:layout="@layout/fragment_general_tab">
+        <action
+            android:id="@+id/action_navigation_general_tab_to_navigation_tax_calculator"
+            app:destination="@id/navigation_tax_calculator" />
+        <action
+            android:id="@+id/action_navigation_general_tab_to_navigation_currency_converter"
+            app:destination="@id/navigation_currency_converter" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_tax_calculator"
+        android:name="com.economiaon.presentation.taxcalculator.TaxCalculatorFragment"
+        android:label="@string/txt_calculate_taxes"
+        tools:layout="@layout/fragment_tax_calculator" />
+
+    <fragment
+        android:id="@+id/navigation_currency_converter"
+        android:name="com.economiaon.presentation.currencyconverter.CurrencyConverterFragment"
+        android:label="@string/txt_currency_converter"
+        tools:layout="@layout/fragment_currency_converter" />
 </navigation>

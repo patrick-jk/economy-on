@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Economia ON</string>
+    <string name="app_name">Oakley Finanças</string>
     <string name="title_home">Home</string>
     <string name="title_finances">Geral</string>
     <string name="title_latest_finances">Histórico</string>
@@ -10,8 +10,8 @@
     <string name="finance_type">Tipo da finança</string>
     <string name="finance_period">Número de Parcelas</string>
     <string name="finance_price">Preço</string>
-    <string name="txt_remaining_balance">Saldo restante:  R$: %1$.2f</string>
-    <string name="txt_check_finances">Check my finances</string>
+    <string name="txt_remaining_balance">Saldo restante:  %s</string>
+    <string name="txt_check_finances">Ver minhas finanças</string>
     <string name="txt_add_new_finance">Add new finance</string>
 
     <string-array name="finance_types">
@@ -23,11 +23,19 @@
     </string-array>
 
     <string-array name="overview_types">
-        <item>Presente</item>
-        <item>Futuro</item>
+        <item>Mês Atual</item>
+        <item>Próximos 6 Meses</item>
     </string-array>
 
-    <string name="txt_used_balance">Saldo usado: %1$%</string>
+    <string-array name="currency_names">
+        <item>Dolar EUA - USD</item>
+        <item>Real Brasileiro - BRL</item>
+        <item>Euro - EUR</item>
+        <item>Libra Esterlina - GBP</item>
+        <item>Iene Japonês - JPY</item>
+    </string-array>
+
+    <string name="txt_used_balance">Saldo usado: %1$.2f</string>
     <string name="txt_overview_period">Período</string>
     <string name="overview_present">Presente</string>
     <string name="overview_future">Futuro</string>
@@ -79,17 +87,41 @@
     <string name="txt_edit_info">Editar</string>
     <string name="txt_user_info_name">Nome: %s</string>
     <string name="txt_user_info_phone">Telefone: %s</string>
-    <string name="txt_user_info_age">Idade: %s</string>
-    <string name="txt_user_info_salary">Salário: %1$.2f</string>
+    <string name="txt_user_info_age">Idade: %d</string>
+    <string name="txt_user_info_salary">Salário: %s</string>
     <string name="first_month">Mês 01</string>
     <string name="second_month">Mês 02</string>
     <string name="third_month">Mês 03</string>
     <string name="forth_month">Mês 04</string>
     <string name="fifth_month">Mês 05</string>
     <string name="sixth_month">Mês 06</string>
-    <string name="txt_user_in_dedit">Devendo! No próximo mês, você terá que evitar isso!</string>
+    <string name="txt_user_in_debit">Devendo! No próximo mês, você terá que evitar isso!</string>
     <string name="txt_finances_ok">Tudo indo bem! Suas finanças são compatíveis com seu salário</string>
     <string name="txt_finance_savings">Excelente! Você está economizando dinheiro corretamente!</string>
-    <string name="txt_empty_list">Sua lista de finanças está vazia! Adicione alguma finança para ser exibido aqui.</string>
+    <string name="txt_empty_list">Sua lista de finanças está vazia!\nAdicione alguma finança para ser exibido aqui.</string>
     <string name="txt_used_balance_default">Saldo usado: 0</string>
+    <string name="txt_delete_finance_btn">Apagar Finança</string>
+    <string name="txt_view_charts">Ver gráfico de finanças</string>
+    <string name="txt_more_details">Ver mais</string>
+    <string name="txt_hello_user">Olá, %s!</string>
+    <string name="txt_spendings">Gastos</string>
+    <string name="txt_months">Meses</string>
+    <string name="txt_future_spendings">Gastos Futuros</string>
+    <string name="txt_category_spending_title">Gastos por Categoria</string>
+    <string name="txt_categories_legend">Categorias</string>
+    <string name="txt_calculate_taxes">Calcular Impostos</string>
+    <string name="txt_general_features">Funções Gerais</string>
+    <string name="txt_taxable_value">Valor</string>
+    <string name="txt_taxable_percentage">Porcentagem</string>
+    <string name="btn_calculate_tax">Calcular</string>
+    <string name="txt_general_tab">Geral</string>
+    <string name="txt_currency_converter">Conversor de Moeda</string>
+    <string name="txt_base_currency">Moeda Original</string>
+    <string name="txt_converted_currency">Moeda Final</string>
+    <string name="btn_convert_currency">Converter</string>
+    <string name="txt_converted_value">Conversão: %s\nValor: %s</string>
+    <string name="txt_invalid_currency">Moeda não pode ser vazia!</string>
+    <string name="txt_invalid_value">Valor não pode ser vazio!</string>
+    <string name="txt_finance_deleted_connect_to_internet">Por favor, se conecte a internet para confirmar as alterações.</string>
+    <string name="txt_update_finance">Você tem certeza que quer atualizar essa finança?</string>
 </resources>

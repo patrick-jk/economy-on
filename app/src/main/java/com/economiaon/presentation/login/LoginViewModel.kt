@@ -23,35 +23,18 @@ class LoginViewModel(private val findUserByEmailUseCase: FindUserByEmailUseCase)
     private val _loggedUser = MutableLiveData<User>()
     val loggedUser: LiveData<User> = _loggedUser
 
-    private val _isLoading = MutableStateFlow(true)
-    val isLoading = _isLoading.asStateFlow()
-
-    init {
-        viewModelScope.launch {
-            delay(3000)
-            _isLoading.value = false
-        }
-    }
-
     fun checkUserInfo(email: String, password: String) = viewModelScope.launch {
         findUserByEmailUseCase(email)
             .catch {
                 _isUserLogged.postValue(false)
             }
             .collect {
-                it.enqueue(object : Callback<User> {
-                    override fun onResponse(call: Call<User>, response: Response<User>) {
-                        if (response.isSuccessful) {
-                            _isUserLogged.value = password == response.body()?.password
-                            _loggedUser.value = response.body()!!
-                        }
-                    }
-
-                    override fun onFailure(call: Call<User>, t: Throwable) {
-                        _isUserLogged.value = false
-                    }
-
-                })
+                if (it.password == password) {
+                    _isUserLogged.postValue(true)
+                    _loggedUser.postValue(it)
+                } else {
+                    _isUserLogged.postValue(false)
+                }
             }
     }
 }

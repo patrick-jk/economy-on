@@ -6,7 +6,7 @@
     android:layout_marginBottom="100dp"
     tools:context=".presentation.charts.FutureChartFragment">
 
-    <com.github.mikephil.charting.charts.BarChart
+    <com.anychart.AnyChartView
         android:id="@+id/bar_chart_future"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -1,4 +1,4 @@
-package com.economiaon.data
+package com.economiaon.data.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore

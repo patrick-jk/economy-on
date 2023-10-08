@@ -1,6 +1,5 @@
-package com.economiaon.data.remote
+package com.economiaon.data.remote.impl
 
-import android.util.Log
 import com.economiaon.data.domain.UserDataSource
 import com.economiaon.domain.model.User
 import com.economiaon.presentation.statepattern.State
@@ -18,7 +17,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class FirebaseUserDataSource(
     private val firebaseAuth: FirebaseAuth,
-    private val firebaseFirestore: FirebaseFirestore
+    firebaseFirestore: FirebaseFirestore
 ) : UserDataSource {
 
     private val documentReference = firebaseFirestore
@@ -32,7 +31,6 @@ class FirebaseUserDataSource(
             return document.toObject(User::class.java)
                 ?: throw NoSuchElementException("User not found for ID: $userId")
         } catch (e: Exception) {
-            Log.e("ProfileFragment", "Error finding user: $e")
             throw e
         }
     }

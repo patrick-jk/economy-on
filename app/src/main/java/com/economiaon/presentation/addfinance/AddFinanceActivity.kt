@@ -1,36 +1,41 @@
 package com.economiaon.presentation.addfinance
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.economiaon.R
-import com.economiaon.data.UserPreferences
+import com.economiaon.data.datastore.UserPreferences
 import com.economiaon.databinding.ActivityAddFinanceBinding
 import com.economiaon.domain.model.Finance
 import com.economiaon.domain.model.FinanceType
 import com.economiaon.presentation.MainActivity
-import com.economiaon.presentation.statepattern.UserState
+import com.economiaon.util.DatePickerFragment
 import com.economiaon.util.createDialog
 import com.economiaon.util.text
-import com.santalu.maskara.Mask
-import com.santalu.maskara.MaskChangedListener
-import com.santalu.maskara.MaskStyle
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.sql.Date
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.UUID
 
-class AddFinanceActivity : AppCompatActivity() {
+class AddFinanceActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     private val _binding by lazy { ActivityAddFinanceBinding.inflate(layoutInflater) }
     private val viewModel by viewModel<AddFinanceViewModel>()
-    private var userId: Long = 0
+    private var userId: String = ""
     private val userPrefs by lazy { UserPreferences(this) }
+
+    private val finance by lazy {
+        intent?.extras?.getParcelable<Finance>(FINANCE)
+    }
 
     companion object Extras {
         const val FINANCE = "EXTRA_FINANCE"
@@ -42,6 +47,7 @@ class AddFinanceActivity : AppCompatActivity() {
         setSupportActionBar(_binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = applicationContext.getString(R.string.cd_fab_add_finance)
+
         lifecycleScope.launch {
             userPrefs.userId.collect { id ->
                 id?.let {
@@ -60,35 +66,55 @@ class AddFinanceActivity : AppCompatActivity() {
 
     @SuppressLint("SimpleDateFormat")
     private fun setupUi() {
-        val dateMask = Mask(value = "__/__/____", character = '_', style = MaskStyle.PERSISTENT)
-
-        val initialDateListener = MaskChangedListener(dateMask)
-        _binding.tilFinanceStart.editText?.addTextChangedListener(initialDateListener)
-
-        val finalDateListener = MaskChangedListener(dateMask)
-        _binding.tilFinanceEnd.editText?.addTextChangedListener(finalDateListener)
-
         if (intent.hasExtra(FINANCE)) {
             intent?.extras.let {
-                val finance = it?.getParcelable<Finance>(FINANCE)
-                finance?.let {
+                finance?.let { fin ->
                     _binding.apply {
-                        tilFinanceName.text = finance.name
+                        tilFinanceName.text = finance!!.name
                         val pattern = SimpleDateFormat("yyyy-MM-dd")
                         val inputPattern = SimpleDateFormat("dd/MM/yyyy")
-                        tilFinanceStart.text = inputPattern.format(pattern.parse(finance.initialDate)!!)
-                        tilFinanceEnd.text = inputPattern.format(pattern.parse(finance.finalDate)!!)
-                        tilFinanceType.text = defineFinanceType(finance)
-                        tilFinancePrice.text = finance.financePrice.toString()
+                        tilFinanceStart.text = inputPattern.format(pattern.parse(finance!!.initialDate)!!)
+                        tilFinanceEnd.text = inputPattern.format(pattern.parse(finance!!.finalDate)!!)
+                        tilFinanceType.text = defineFinanceType(finance!!)
+                        tilFinancePrice.text = finance!!.financeCost.toString()
                         btnCreateFin.text = resources.getString(R.string.txt_edit_finance)
                         btnDeleteFin.visibility = View.VISIBLE
+
                         btnDeleteFin.setOnClickListener {
-                            viewModel.deleteFinance(finance.id)
+                            createDialog {
+                                setMessage(resources.getString(R.string.txt_delete_finance))
+                                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                                        viewModel.deleteFinance(fin.id)
+                                    }
+                                    .setNegativeButton(android.R.string.cancel, null)
+                            }.show()
                         }
                     }
                 }
             }
         }
+
+        if (intent.hasExtra(FINANCE)) {
+            _binding.tilFinanceStart.editText?.setOnClickListener {
+                Log.i("AddFinanceActivity", "setupUi: ${finance!!.initialDate}")
+                showDatePickerDialog("Start", LocalDate.parse(finance!!.initialDate))
+            }
+
+            _binding.tilFinanceEnd.editText?.setOnClickListener {
+                Log.i("AddFinanceActivity", "setupUi: ${finance!!.finalDate}")
+                showDatePickerDialog("End", LocalDate.parse(finance!!.finalDate))
+            }
+        } else {
+            _binding.tilFinanceStart.editText?.setOnClickListener {
+                showDatePickerDialog("Start")
+            }
+
+            _binding.tilFinanceEnd.editText?.setOnClickListener {
+                showDatePickerDialog("End")
+                DatePickerFragment.newInstance(this@AddFinanceActivity)
+            }
+        }
+
         _binding.apply {
             btnCreateFin.setOnClickListener {
                 if (tilFinanceName.text.isBlank()) {
@@ -101,12 +127,12 @@ class AddFinanceActivity : AppCompatActivity() {
                     tilFinanceType.requestFocus()
                     return@setOnClickListener
                 }
-                if (initialDateListener.unMasked.isBlank()) {
+                if (tilFinanceStart.text.isBlank()) {
                     tilFinanceStart.error = resources.getString(R.string.txt_finance_start_error)
                     tilFinanceStart.requestFocus()
                     return@setOnClickListener
                 }
-                if (finalDateListener.unMasked.isBlank()) {
+                if (tilFinanceEnd.text.isBlank()) {
                     tilFinanceEnd.error = resources.getString(R.string.txt_finance_end_error)
                     tilFinanceEnd.requestFocus()
                     return@setOnClickListener
@@ -116,35 +142,44 @@ class AddFinanceActivity : AppCompatActivity() {
                     tilFinancePrice.requestFocus()
                     return@setOnClickListener
                 }
-                viewModel.getUserById(userId)
 
-                viewModel.loggedUser.observe(this@AddFinanceActivity) {
-                    when (it) {
-                        is UserState.Loading -> {}
-                        is UserState.Error -> {
-                            createDialog {
-                                setMessage(it.error.message)
-                            }
-                        }
-                        is UserState.Success -> {
-                            val inputPattern = SimpleDateFormat("dd/MM/yyyy")
-                            val pattern = SimpleDateFormat("yyyy-MM-dd")
-                            val finance = Finance(
-                                id = 0, name = tilFinanceName.text,
-                                type = toFinanceTypeEnum(tilFinanceType.text),
-                                financePrice = tilFinancePrice.text.toBigDecimal(),
-                                initialDate = Date.valueOf(pattern.format(inputPattern.parse(initialDateListener.masked)!!)).toString(),
-                                finalDate = Date.valueOf(pattern.format(inputPattern.parse(finalDateListener.masked)!!)).toString(),
-                                user = it.user
-                            )
-                            if (btnCreateFin.text == resources.getString(R.string.cd_fab_add_finance))
-                                viewModel.saveFinance(finance)
-                            else
+                val finance = createFinance()
+                if (btnCreateFin.text == resources.getString(R.string.cd_fab_add_finance)) viewModel.saveFinance(finance)
+                else {
+                    createDialog {
+                        setMessage(resources.getString(R.string.txt_update_finance))
+                            .setPositiveButton(android.R.string.ok) { _, _ ->
                                 viewModel.updateFinance(finance)
-                        }
-                    }
+                            }
+                            .setNegativeButton(android.R.string.cancel, null)
+                    }.show()
+
                 }
             }
+        }
+    }
+
+    private fun showDatePickerDialog(tag: String, actualDate: LocalDate = LocalDate.now()) {
+        Log.i("AddFinanceActivity", "showDatePickerDialog: $actualDate")
+        val datePicker = DatePickerFragment.newInstance(this, actualDate)
+        datePicker.show(supportFragmentManager, "datePicker$tag")
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun createFinance(): Finance {
+        _binding.apply {
+            val inputPattern = SimpleDateFormat("dd/MM/yyyy")
+            val pattern = SimpleDateFormat("yyyy-MM-dd")
+
+            return Finance(
+                id = this@AddFinanceActivity.finance?.id ?: UUID.randomUUID().toString(),
+                name = tilFinanceName.text,
+                type = toFinanceTypeEnum(tilFinanceType.text),
+                financeCost = tilFinancePrice.text.toDouble(),
+                initialDate = Date.valueOf(pattern.format(inputPattern.parse(tilFinanceStart.text)!!)).toString(),
+                finalDate = Date.valueOf(pattern.format(inputPattern.parse(tilFinanceEnd.text)!!)).toString(),
+                userEmail = userId
+            )
         }
     }
 
@@ -152,11 +187,6 @@ class AddFinanceActivity : AppCompatActivity() {
         val financeTypes = resources.getStringArray(R.array.finance_types)
         val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, financeTypes)
         _binding.actvFinanceType.setAdapter(arrayAdapter)
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 
     private fun defineFinanceType(finance: Finance): String {
@@ -186,30 +216,49 @@ class AddFinanceActivity : AppCompatActivity() {
             if (it) {
                 financeNotification(R.string.txt_finance_updated)
             } else {
-                errorToast()
+                financeNotification(R.string.txt_finance_updated, R.string.txt_finance_deleted_connect_to_internet)
+
             }
         }
         viewModel.isFinanceCreated.observe(this) {
             if (it) {
                 financeNotification(R.string.txt_finance_created)
             } else {
-                errorToast()
+                financeNotification(R.string.txt_finance_created, R.string.txt_finance_deleted_connect_to_internet)
+
             }
         }
         viewModel.isFinanceDeleted.observe(this) {
             if (it) {
                 financeNotification(R.string.txt_finance_deleted)
             } else {
-                errorToast()
+                financeNotification(R.string.txt_finance_deleted, R.string.txt_finance_deleted_connect_to_internet)
             }
         }
     }
 
-    private fun errorToast() =
-        Toast.makeText(this, resources.getString(R.string.txt_unexpected_error), Toast.LENGTH_SHORT).show()
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+    private fun financeNotification(stringRes: Int, stringRes2: Int? = null) {
+        createDialog {
+            setMessage((resources.getString(stringRes) + resources.getString(stringRes2 ?: R.string.txt_empty)))
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    startActivity(Intent(this@AddFinanceActivity, MainActivity::class.java))
+                }
+        }.show()
+    }
 
-    private fun financeNotification(stringRes: Int) {
-        Toast.makeText(this, stringRes, Toast.LENGTH_SHORT).show()
-        startActivity(Intent(this, MainActivity::class.java))
+    override fun onDateSet(date: DatePicker?, year: Int, month: Int, day: Int) {
+        val monthString = if (month < 9) "0${month + 1}" else "${month + 1}"
+        val dayString = if (day < 10) "0$day" else "$day"
+        val selectedDate = "$dayString/$monthString/$year"
+
+        if (_binding.tilFinanceStart.editText?.hasFocus() == true) {
+            _binding.tilFinanceStart.text = selectedDate
+        } else {
+            _binding.tilFinanceEnd.text = selectedDate
+        }
     }
 }

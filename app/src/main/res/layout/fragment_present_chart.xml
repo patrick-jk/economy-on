@@ -6,7 +6,7 @@
     android:layout_marginBottom="100dp"
     tools:context=".presentation.charts.PresentChartFragment">
 
-    <com.github.mikephil.charting.charts.PieChart
+    <com.anychart.AnyChartView
         android:id="@+id/pie_chart_present"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

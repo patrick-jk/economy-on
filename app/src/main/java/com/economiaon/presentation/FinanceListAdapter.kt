@@ -9,9 +9,10 @@ import com.economiaon.R
 import com.economiaon.databinding.ItemFinancesBinding
 import com.economiaon.domain.model.Finance
 import com.economiaon.domain.model.FinanceType
+import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.Period
-import java.util.*
+import java.util.Locale
 
 class FinanceListAdapter(private val onClick: (Finance) -> Unit) : ListAdapter<Finance, FinanceListAdapter.ViewHolder>(DiffCallback()) {
 
@@ -41,7 +42,11 @@ class FinanceListAdapter(private val onClick: (Finance) -> Unit) : ListAdapter<F
                 }
                 val installmentStart: LocalDate = LocalDate.parse(item.initialDate)
                 val installmentEnd: LocalDate = LocalDate.parse(item.finalDate)
-                val initialInstallmentPeriod = Period.between(installmentStart, LocalDate.now())
+                val initialInstallmentPeriod = if (installmentEnd > LocalDate.now()) {
+                    Period.between(installmentStart, LocalDate.now())
+                } else {
+                    Period.between(installmentStart, installmentEnd)
+                }
                 val finalInstallmentPeriod = Period.between(installmentStart, installmentEnd)
 
                 val initialInstallment = if (initialInstallmentPeriod.years == 0) {
@@ -52,34 +57,21 @@ class FinanceListAdapter(private val onClick: (Finance) -> Unit) : ListAdapter<F
 
                 if (finalInstallmentPeriod.years == 0) {
                     val finalInstallment = finalInstallmentPeriod.months
-                    tvFinPeriod.text = context.getString(R.string.finance_time, initialInstallment + 1, finalInstallment)
+                    tvFinPeriod.text = context.getString(R.string.finance_time, initialInstallment, finalInstallment)
                 } else {
                     val remainingYearsInMonths = finalInstallmentPeriod.years * 12
                     val remainingMonths = finalInstallmentPeriod.months
-                    tvFinPeriod.text = context.getString(R.string.finance_time, initialInstallment + 1, remainingYearsInMonths + remainingMonths)
+                    tvFinPeriod.text = context.getString(R.string.finance_time, initialInstallment, remainingYearsInMonths + remainingMonths)
                 }
-                tvFinPrice.text = String.format(Locale.getDefault(), "$%.2f", item.financePrice)
+                tvFinPrice.text = NumberFormat.getCurrencyInstance(Locale.getDefault()).format(item.financeCost)
 
                 btnEditFin.setOnClickListener {
                     onClick(item)
                 }
-//                btnDeleteFin.setOnClickListener {
-//                    val dialog = AlertDialog.Builder(context)
-//                        .setTitle(R.string.txt_delete_finance)
-//                        .setMessage(R.string.txt_warning_delete_finance)
-//                        .setPositiveButton(android.R.string.ok) { _, _ ->
-//                            deleteFinance(item)
-//                            currentList.toMutableList().removeAt(position)
-//                            notifyItemRemoved(position)
-//                            notifyItemRangeChanged(position, itemCount)
-//                        }.setNegativeButton(android.R.string.cancel) { dialog, _ ->
-//                            dialog.dismiss()
-//                        }
-//                    dialog.show()
-                }
             }
         }
     }
+}
 
 class DiffCallback : DiffUtil.ItemCallback<Finance>() {
     override fun areItemsTheSame(oldItem: Finance, newItem: Finance) = oldItem.id == newItem.id
